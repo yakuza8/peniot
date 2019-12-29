@@ -1,10 +1,10 @@
-# PENIOT: PENIOT: Penetration Testing Tool for IoT
+# PENIOT: Penetration Testing Tool for IoT
 
 ## Project Description
 
 ### What is PENIOT?
 
-PENIOT is a penetration testing tool for Internet of Things (IoT) devices. 
+[PENIOT](https://senior.ceng.metu.edu.tr/2019/peniot/) is a penetration testing tool for Internet of Things (IoT) devices. 
 It helps you to test/penetrate your devices by targeting their internet connectivity
 with different types of security attacks. In other words, you can expose your device
 to both active and passive security attacks. After deciding target device and necessary
@@ -20,7 +20,7 @@ or new IoT protocols. One of the most important features of PENIOT is being exte
 By default, it has several common IoT protocols and numerous security attacks related to
 those protocols. But, it can be extended further via exporting basic structure of internally
 used components so that you can develop your attacks in harmony with the internal structure
-of the PENIOT. 
+of the PENIOT.
 
 ### Why is PENIOT required?
 
