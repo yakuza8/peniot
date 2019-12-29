@@ -77,7 +77,13 @@ it since the project cannot be maintained so long. Please inform us if there is 
 with installation.
 
 ### Documentation
- 
+You can find *Design Overview Document* and *Final Design Document* under the **resources/documents** folder.
+Several diagrams are attached under the **resources/diagrams** folder. Here is the simplest
+representation of how PENIOT is separated modules and how it is designed.
+
+<p align="center">
+<img src="/resources/diagrams/peniot_structure_component_diagram.png">
+</p>
 
 ## Project Poster
 <p align="center">
