@@ -1,24 +1,21 @@
+import logging
 import multiprocessing
+import random
+import signal
+import time
 import unittest
 
 import pika
-import Utils.FuzzerUtil.radamsa_util as rdm
 
-import logging
-import random
-import signal
-import sys
-import time
-
-from Entity.attack import Attack
-from Entity.input_format import InputFormat
-
-"""
-    AMQP Protocol - Random Payload Fuzzing Attack module
-"""
+from ....Entity.attack import Attack
+from ....Entity.input_format import InputFormat
+from ....Utils.FuzzerUtil import radamsa_util as rdm
 
 
 class AMQPRandomPayloadFuzzingAttack(Attack):
+    """
+    AMQP Protocol - Random Payload Fuzzing Attack module
+    """
     # Input Fields
     host = "localhost"
     queue = "peniot-queue"
@@ -35,7 +32,7 @@ class AMQPRandomPayloadFuzzingAttack(Attack):
     logger = None
     sent_message_count = 0
     max_length_of_random_payload = 100
-    stoppedFlag = False
+    stopped_flag = False
 
     def __init__(self):
         default_parameters = ["", "", "", "", "", "", 10, 1]
@@ -64,7 +61,7 @@ class AMQPRandomPayloadFuzzingAttack(Attack):
 
     def stop_attack(self):
         self.logger.info("Connection will be closed")
-        self.stoppedFlag = True
+        self.stopped_flag = True
         if self.connection is not None:
             self.connection.close()
         time.sleep(2)  # Sleep two seconds so the user can see the message
@@ -93,7 +90,7 @@ class AMQPRandomPayloadFuzzingAttack(Attack):
         self.logger.info("Random payload fuzzing is started.")
         for fuzzing in range(self.turn):
 
-            if self.stoppedFlag is True:
+            if self.stopped_flag is True:
                 break
             while True:
                 try:
@@ -118,7 +115,7 @@ class AMQPRandomPayloadFuzzingAttack(Attack):
             time.sleep(1)
             self.logger.info("Turn {0} is completed".format(fuzzing + 1))
 
-        if self.stoppedFlag is False:
+        if self.stopped_flag is False:
             self.logger.info("Random payload fuzzing is finished.")
 
         if self.connection is not None:
@@ -132,22 +129,22 @@ class TestAMQPRandomPayloadAttack(unittest.TestCase):
     def tearDown(self):
         pass
 
-    def testName(self):
+    def test_name(self):
         self.assertEqual("AMQP Random Payload Fuzzing Attack", self.amqp_random_payload_fuzzer.get_attack_name())
 
-    def testInputs(self):
+    def test_inputs(self):
         inputs = self.amqp_random_payload_fuzzer.get_inputs()
         self.assertIsNotNone(inputs)
         self.assertGreater(len(inputs), 0, "Non inserted inputs")
         self.assertEquals(len(inputs), 8)
 
-    def testNonInitializedInputs(self):
+    def test_non_initialized_inputs(self):
         inputs = self.amqp_random_payload_fuzzer.get_inputs()
         for _input in inputs:
             value = getattr(self.amqp_random_payload_fuzzer, _input.get_name())
             self.assertTrue(value is None or type(value) == _input.get_type())
 
-    def testAfterGettingInputs(self):
+    def test_after_getting_inputs(self):
         example_inputs = ["localhost", "peniot-queue", "peniot-exchange", "peniot-routing-key", "peniot-body", "direct",
                           13, 12]
         for index, _input in enumerate(example_inputs):
@@ -163,7 +160,7 @@ class TestAMQPRandomPayloadAttack(unittest.TestCase):
             value = getattr(self.amqp_random_payload_fuzzer, _input.get_name())
             self.assertEqual(example_inputs[index], value)
 
-    def testInvalidFuzzingTurn(self):
+    def test_invalid_fuzzing_turn(self):
         example_inputs = ["localhost", "peniot-queue", "peniot-exchange", "peniot-routing-key", "peniot-body", "direct",
                           1, 11]
         for index, _input in enumerate(example_inputs):
@@ -175,7 +172,7 @@ class TestAMQPRandomPayloadAttack(unittest.TestCase):
         except AssertionError as e:
             self.assertTrue(True)
 
-    def testRandomPayloadFuzzingAttack(self):
+    def test_random_payload_fuzzing_attack(self):
         def run_attack():
             example_inputs = ["localhost", "peniot-queue", "peniot-exchange", "peniot-routing-key", "peniot-body",
                               "direct", 5, 1]

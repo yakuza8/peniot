@@ -8,12 +8,12 @@ from protocols.BLE.Adafruit_BLESniffer.SnifferAPI import CaptureFiles
 
 
 class BLESniffer:
-    stoppedFlag = False
+    stopped_flag = False
     serial_port = None
 
     def __init__(self, serial_portt):
 
-        self.stoppedFlag = False
+        self.stopped_flag = False
         # store the captured packets
         PATH_TO_FILE = BLESniffer.create_file_name()
 
@@ -47,7 +47,7 @@ class BLESniffer:
 
             # loop will be skipped if a target device is specified on commandline
             while d is None:
-                if self.stoppedFlag is True:
+                if self.stopped_flag is True:
                     break
 
                 print("Scanning for BLE devices (5s) ...")
@@ -57,7 +57,7 @@ class BLESniffer:
                     d = sniffer.selectDevice(devlist)
                     print d
 
-            if self.stoppedFlag is True:
+            if self.stopped_flag is True:
                 d = None
             else:
                 # Start sniffing the selected device
@@ -71,11 +71,11 @@ class BLESniffer:
             if d is not None:
                 sniffer.mySniffer.follow(d)
             else:
-                if self.stoppedFlag is False:
+                if self.stopped_flag is False:
                     print("ERROR: Could not find the selected device")
 
             # Dump packets
-            while (self.stoppedFlag is False) and (d is not None):  # Dogukan
+            while (self.stopped_flag is False) and (d is not None):  # Dogukan
                 sniffer.dumpPackets()
                 time.sleep(1)
 
@@ -91,7 +91,7 @@ class BLESniffer:
             sys.exit(-1)
 
     def stop_attack(self):
-        self.stoppedFlag = True
+        self.stopped_flag = True
         print("BLE sniffing attack has been terminated")
         time.sleep(2)  # Sleep two seconds so the user can see the message
 

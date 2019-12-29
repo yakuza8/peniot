@@ -1,15 +1,13 @@
+import logging
 import signal
+import time
 import unittest
 
-from Utils import CommonUtil
-from Utils.SnifferUtil import generic_sniffer
-
-import logging
-import time
-
-from Entity.attack import Attack
-from Entity.input_format import InputFormat
-from protocols.MQTT.mqtt_scanner import MQTTScanner
+from ..mqtt_scanner import MQTTScanner
+from ....Entity.attack import Attack
+from ....Entity.input_format import InputFormat
+from ....Utils import CommonUtil
+from ....Utils.SnifferUtil import generic_sniffer
 
 """
     MQTT Protocol - Sniff Attack module
@@ -78,16 +76,16 @@ class TestMQTTSniffAttack(unittest.TestCase):
     def tearDown(self):
         pass
 
-    def testName(self):
+    def test_name(self):
         self.assertEqual("MQTT Sniff Attack", self.mqtt_sniff_attack.get_attack_name())
 
-    def testNonInitializedInputs(self):
+    def test_non_initialized_inputs(self):
         inputs = self.mqtt_sniff_attack.get_inputs()
         for _input in inputs:
             value = getattr(self.mqtt_sniff_attack, _input.get_name())
             self.assertTrue(value is None or type(value) == _input.get_type())
 
-    def testAfterGettingInputs(self):
+    def test_after_getting_inputs(self):
         example_inputs = [13.2, "test-interface", False]
         for index, _input in enumerate(example_inputs):
             self.mqtt_sniff_attack.inputs[index].set_value(_input)
@@ -99,7 +97,7 @@ class TestMQTTSniffAttack(unittest.TestCase):
             value = getattr(self.mqtt_sniff_attack, _input.get_name())
             self.assertEqual(example_inputs[index], value)
 
-    def testSniffAttack(self):
+    def test_sniff_attack(self):
         example_inputs = [10.0]
         for index, _input in enumerate(example_inputs):
             self.mqtt_sniff_attack.inputs[index].set_value(_input)

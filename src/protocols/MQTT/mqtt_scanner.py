@@ -1,4 +1,4 @@
-import Utils.SnifferUtil.generic_sniffer as generic_sniffer
+from ...Utils.SnifferUtil import generic_sniffer as generic_sniffer
 
 from scapy.all import *
 

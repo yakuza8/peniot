@@ -7,9 +7,9 @@ import time
 import signal
 import unittest
 
-from Entity.attack import Attack
-from Entity.input_format import InputFormat
-from protocols import MQTT as PeniotMQTT
+from ....Entity.attack import Attack
+from ....Entity.input_format import InputFormat
+from ....Utils.RandomUtil import random_generated_names
 
 """
     MQTT Protocol - Payload Size Fuzzer Attack module
@@ -29,7 +29,7 @@ class MQTTPayloadSizeFuzzerAttack(Attack):
     logger = None
     max_payload_length = 268435455
     sent_message_count = 0  # Transmitted fuzzing packets
-    stoppedFlag = False
+    stopped_flag = False
 
     def __init__(self):
         default_parameters = ["127.0.0.1", "#", 10]
@@ -52,7 +52,7 @@ class MQTTPayloadSizeFuzzerAttack(Attack):
 
     def stop_attack(self):
         self.logger.info("Transmitted fuzzing packet count: {0}, exitting...".format(self.sent_message_count))
-        self.stoppedFlag = True
+        self.stopped_flag = True
         if self.client is not None:
             self.client.disconnect()  # Close the connection before exitting
         time.sleep(2)  # Sleep one second so the user can see the message
@@ -63,7 +63,7 @@ class MQTTPayloadSizeFuzzerAttack(Attack):
             assert self.fuzzing_turn >= 2
         except AssertionError as e:
             raise
-        self.client = paho.Client(PeniotMQTT.get_random_mqtt_client_name())
+        self.client = paho.Client(random_generated_names.get_random_client_name())
         try:
             self.client.connect(self.host)
         except Exception as e:
@@ -81,7 +81,7 @@ class MQTTPayloadSizeFuzzerAttack(Attack):
         self.logger.info("Size payload fuzzing is started. Please consider it may take some time.")
         for payload_size in size_list:
 
-            if self.stoppedFlag is True:  # An external interrupt can force us to finish the attack
+            if self.stopped_flag is True:  # An external interrupt can force us to finish the attack
                 break
             # Create payload and send it
             random_strings = "".join([chr(_) for _ in range(65, 91)]) + "".join([chr(_) for _ in range(97, 123)])
@@ -94,7 +94,7 @@ class MQTTPayloadSizeFuzzerAttack(Attack):
             self.sent_message_count += 1
             fuzzing += 1
             time.sleep(1)
-        if self.stoppedFlag is False:
+        if self.stopped_flag is False:
             self.logger.info("Payload size attack is finished.")
 
 
@@ -105,22 +105,22 @@ class TestMQTTPayloadSizeAttack(unittest.TestCase):
     def tearDown(self):
         pass
 
-    def testName(self):
+    def test_name(self):
         self.assertEqual("MQTT Payload Size Fuzzer Attack", self.mqtt_payload_size_fuzzer.get_attack_name())
 
-    def testInputs(self):
+    def test_inputs(self):
         inputs = self.mqtt_payload_size_fuzzer.get_inputs()
         self.assertIsNotNone(inputs)
         self.assertGreater(len(inputs), 0, "Non inserted inputs")
         self.assertEquals(len(inputs), 3)
 
-    def testNonInitializedInputs(self):
+    def test_non_initialized_inputs(self):
         inputs = self.mqtt_payload_size_fuzzer.get_inputs()
         for _input in inputs:
             value = getattr(self.mqtt_payload_size_fuzzer, _input.get_name())
             self.assertTrue(value is None or type(value) == _input.get_type())
 
-    def testAfterGettingInputs(self):
+    def test_after_getting_inputs(self):
         example_inputs = ["a.b.c.d", "peniot-coap-test", 8888]
         for index, _input in enumerate(example_inputs):
             self.mqtt_payload_size_fuzzer.inputs[index].set_value(_input)
@@ -135,7 +135,7 @@ class TestMQTTPayloadSizeAttack(unittest.TestCase):
             value = getattr(self.mqtt_payload_size_fuzzer, _input.get_name())
             self.assertEqual(example_inputs[index], value)
 
-    def testInvalidFuzzingTurn(self):
+    def test_invalid_fuzzing_turn(self):
         example_inputs = ["127.0.0.1", "peniot-topic", 1]
         for index, _input in enumerate(example_inputs):
             self.mqtt_payload_size_fuzzer.inputs[index].set_value(_input)
@@ -146,7 +146,7 @@ class TestMQTTPayloadSizeAttack(unittest.TestCase):
         except AssertionError as e:
             self.assertTrue(True)
 
-    def testPayloadSizeFuzzingAttack(self):
+    def test_payload_size_fuzzing_attack(self):
         def run_attack():
             example_inputs = ["127.0.0.1", "peniot/test", 3]
             for index, _input in enumerate(example_inputs):

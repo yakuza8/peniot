@@ -1,23 +1,22 @@
 import pexpect
 
-"""
-    Represents a BLE device.
-    It uses `gatttool` to connect a BLE device.
-"""
-
 
 class BLEDevice:
+    """
+    Represents a BLE device.
+    It uses `gatttool` to connect a BLE device.
+    """
+
     def __init__(self, address):
         self.device = None
         self.address = address
         # connect to the device specified with the given address
         self.connect()
 
-    """
-        Connects to the BLE device
-    """
-
     def connect(self):
+        """
+        Connects to the BLE device
+        """
         print "Connecting..."
         # Run gatttool interactively.
         self.device = pexpect.spawn("gatttool -b " + self.address + " -I")

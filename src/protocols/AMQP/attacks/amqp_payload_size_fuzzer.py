@@ -1,23 +1,21 @@
+import logging
 import multiprocessing
+import random
+import signal
+import time
 import unittest
 
 import pika
-import logging
-import random
-import signal
-import sys
-import time
 
-from Entity.attack import Attack
-from Entity.input_format import InputFormat
-
-"""
-    AMQP Protocol - Payload Size Fuzzer Attack module
-    It is created to test any AMQP device as black box test with malformed or semi-malformed inputs
-"""
+from ....Entity.attack import Attack
+from ....Entity.input_format import InputFormat
 
 
 class AMQPPayloadSizeFuzzerAttack(Attack):
+    """
+    AMQP Protocol - Payload Size Fuzzer Attack module
+    It is created to test any AMQP device as black box test with malformed or semi-malformed inputs
+    """
     # Input Fields
     host = "localhost"
     queue = "peniot-queue"
@@ -33,7 +31,7 @@ class AMQPPayloadSizeFuzzerAttack(Attack):
     logger = None
     sent_message_count = 0
     max_payload_length = 2 ** 32
-    stoppedFlag = False
+    stopped_flag = False
 
     def __init__(self):
         default_parameters = ["", "", "", "", "", "", 10]
@@ -59,7 +57,7 @@ class AMQPPayloadSizeFuzzerAttack(Attack):
 
     def stop_attack(self):
         self.logger.info("Connection will be closed")
-        self.stoppedFlag = True
+        self.stopped_flag = True
         if self.connection is not None:
             self.connection.close()
         time.sleep(2)  # Sleep two seconds so the user can see the message
@@ -92,7 +90,7 @@ class AMQPPayloadSizeFuzzerAttack(Attack):
         self.logger.info("Size payload fuzzing is started. Please consider it may take some time.")
         for payload_size in size_list:
 
-            if self.stoppedFlag is True:
+            if self.stopped_flag is True:
                 break
             # Create payload and send it
             random_strings = "".join([chr(_) for _ in range(65, 91)]) + "".join([chr(_) for _ in range(97, 123)])
@@ -106,7 +104,7 @@ class AMQPPayloadSizeFuzzerAttack(Attack):
             fuzzing += 1
             time.sleep(1)
 
-        if self.stoppedFlag is False:
+        if self.stopped_flag is False:
             self.logger.info("Payload size attack is finished.")
 
 
@@ -117,22 +115,22 @@ class TestCoAPPayloadSizeAttack(unittest.TestCase):
     def tearDown(self):
         pass
 
-    def testName(self):
+    def test_name(self):
         self.assertEqual("AMQP Payload Size Fuzzer Attack", self.amqp_payload_size_fuzzer.get_attack_name())
 
-    def testInputs(self):
+    def test_inputs(self):
         inputs = self.amqp_payload_size_fuzzer.get_inputs()
         self.assertIsNotNone(inputs)
         self.assertGreater(len(inputs), 0, "Non inserted inputs")
         self.assertEquals(len(inputs), 7)
 
-    def testNonInitializedInputs(self):
+    def test_non_initialized_inputs(self):
         inputs = self.amqp_payload_size_fuzzer.get_inputs()
         for _input in inputs:
             value = getattr(self.amqp_payload_size_fuzzer, _input.get_name())
             self.assertTrue(value is None or type(value) == _input.get_type())
 
-    def testAfterGettingInputs(self):
+    def test_after_getting_inputs(self):
         example_inputs = ["localhost", "peniot-queue", "peniot-exchange", "peniot-routing-key", "peniot-body", "direct",
                           5]
         for index, _input in enumerate(example_inputs):
@@ -148,7 +146,7 @@ class TestCoAPPayloadSizeAttack(unittest.TestCase):
             value = getattr(self.amqp_payload_size_fuzzer, _input.get_name())
             self.assertEqual(example_inputs[index], value)
 
-    def testInvalidFuzzingTurn(self):
+    def test_invalid_fuzzing_turn(self):
         example_inputs = ["localhost", "peniot-queue", "peniot-exchange", "peniot-routing-key", "peniot-body", "direct",
                           1]
         for index, _input in enumerate(example_inputs):
@@ -160,7 +158,7 @@ class TestCoAPPayloadSizeAttack(unittest.TestCase):
         except AssertionError as e:
             self.assertTrue(True)
 
-    def testPayloadSizeFuzzingAttack(self):
+    def test_payload_size_fuzzing_attack(self):
         def run_attack():
             example_inputs = ["localhost", "peniot-queue", "peniot-exchange", "peniot-routing-key", "peniot-body",
                               "direct", 3]

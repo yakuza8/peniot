@@ -1,23 +1,20 @@
-from Entity.attack import Attack
-from Entity.input_format import InputFormat
-from Utils import CommonUtil
-from Utils.SnifferUtil import generic_sniffer
-
 import logging
 import signal
-import sys
 import time
 import unittest
 
-from protocols.CoAP.coap_scanner import CoAPScanner
-
-"""
-    CoAP Protocol - Sniff Attack module
-    It is created to scan/sniff the devices for their information
-"""
+from ....Entity.attack import Attack
+from ....Entity.input_format import InputFormat
+from ....Utils import CommonUtil
+from ....Utils.SnifferUtil import generic_sniffer
+from ..coap_scanner import CoAPScanner
 
 
 class CoAPSniffAttack(Attack):
+    """
+    It is created to scan/sniff the devices for their information
+    CoAP Protocol - Sniff Attack module
+    """
     # Input Fields
     timeout = generic_sniffer.DEFAULT_SNIFF_TIMEOUT
     interface = generic_sniffer.DEFAULT_INTERFACE
@@ -68,16 +65,16 @@ class TestCoAPSniffAttack(unittest.TestCase):
     def tearDown(self):
         pass
 
-    def testName(self):
+    def test_name(self):
         self.assertEqual("CoAP Sniff Attack", self.coap_sniff_attack.get_attack_name())
 
-    def testNonInitializedInputs(self):
+    def test_non_initialized_inputs(self):
         inputs = self.coap_sniff_attack.get_inputs()
         for _input in inputs:
             value = getattr(self.coap_sniff_attack, _input.get_name())
             self.assertTrue(value is None or type(value) == _input.get_type())
 
-    def testAfterGettingInputs(self):
+    def test_after_getting_inputs(self):
         example_inputs = [13.2, "test-interface", False]
         for index, _input in enumerate(example_inputs):
             self.coap_sniff_attack.inputs[index].set_value(_input)
@@ -89,7 +86,7 @@ class TestCoAPSniffAttack(unittest.TestCase):
             value = getattr(self.coap_sniff_attack, _input.get_name())
             self.assertEqual(example_inputs[index], value)
 
-    def testSniffAttack(self):
+    def test_sniff_attack(self):
         example_inputs = [10.0]
         for index, _input in enumerate(example_inputs):
             self.coap_sniff_attack.inputs[index].set_value(_input)

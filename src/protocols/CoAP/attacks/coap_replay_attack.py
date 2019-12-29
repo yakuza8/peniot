@@ -1,23 +1,20 @@
-from Entity.attack import Attack
-from Entity.input_format import InputFormat
-from Utils.SnifferUtil import generic_sniffer
-
 import logging
 import signal
 import socket
-import sys
 import time
 import unittest
 
-from protocols.CoAP.coap_scanner import CoAPScanner
-
-"""
-    CoAP Protocol - Replay Attack module
-    It is created to scan/sniff the valid traffic of target protocol and send the selected packets to the target device
-"""
+from ....Entity.attack import Attack
+from ....Entity.input_format import InputFormat
+from ....Utils.SnifferUtil import generic_sniffer
+from ..coap_scanner import CoAPScanner
 
 
 class CoAPReplayAttack(Attack):
+    """
+    CoAP Protocol - Replay Attack module
+    It is created to scan/sniff the valid traffic of target protocol and send the selected packets to the target device
+    """
     captured_packets = None
 
     # Input Fields
@@ -92,16 +89,16 @@ class TestCoAPReplayAttack(unittest.TestCase):
     def tearDown(self):
         pass
 
-    def testName(self):
+    def test_name(self):
         self.assertEqual("CoAP Replay Attack", self.coap_replay_attack.get_attack_name())
 
-    def testNonInitializedInputs(self):
+    def test_non_initialized_inputs(self):
         inputs = self.coap_replay_attack.get_inputs()
         for _input in inputs:
             value = getattr(self.coap_replay_attack, _input.get_name())
             self.assertTrue(value is None or type(value) == _input.get_type())
 
-    def testAfterGettingInputs(self):
+    def test_after_getting_inputs(self):
         example_inputs = [8, 13.2, "test-interface"]
         for index, _input in enumerate(example_inputs):
             self.coap_replay_attack.inputs[index].set_value(_input)
@@ -113,7 +110,7 @@ class TestCoAPReplayAttack(unittest.TestCase):
             value = getattr(self.coap_replay_attack, _input.get_name())
             self.assertEqual(example_inputs[index], value)
 
-    def testReplayAttack(self):
+    def test_replay_attack(self):
         example_inputs = [0, 15., "any"]
         for index, _input in enumerate(example_inputs):
             self.coap_replay_attack.inputs[index].set_value(_input)

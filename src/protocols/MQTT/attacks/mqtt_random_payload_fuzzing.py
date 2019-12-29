@@ -2,16 +2,16 @@ import multiprocessing
 import unittest
 
 import paho.mqtt.client as paho
-import Utils.FuzzerUtil.radamsa_util as rdm
 
 import logging
 import random
 import signal
 import time
 
-from Entity.attack import Attack
-from Entity.input_format import InputFormat
-from protocols import MQTT as PeniotMQTT
+from ....Entity.attack import Attack
+from ....Entity.input_format import InputFormat
+from ....Utils.FuzzerUtil import radamsa_util as rdm
+from ....Utils.RandomUtil import random_generated_names
 
 """
     MQTT Protocol - Random Payload Fuzzing Attack module
@@ -33,7 +33,7 @@ class MQTTRandomPayloadFuzzingAttack(Attack):
     logger = None
     max_length_of_random_payload = 100
     sent_message_count = 0
-    stoppedFlag = False
+    stopped_flag = False
 
     def __init__(self):
         default_parameters = ["127.0.0.1", "#", 10, 10, ""]
@@ -59,14 +59,14 @@ class MQTTRandomPayloadFuzzingAttack(Attack):
 
     def stop_attack(self):
         self.logger.info("Transmitted fuzzing packet count: {0}, exitting...".format(self.sent_message_count))
-        self.stoppedFlag = True
+        self.stopped_flag = True
         if self.client is not None:
             self.client.disconnect()  # Close the connection before exitting
         time.sleep(2)  # Sleep two seconds so the user can see the message
         # sys.exit(0)
 
     def pre_attack_init(self):
-        self.client = paho.Client(PeniotMQTT.get_random_mqtt_client_name())
+        self.client = paho.Client(random_generated_names.get_random_client_name())
         try:
             self.client.connect(self.address)
         except Exception as e:
@@ -85,7 +85,7 @@ class MQTTRandomPayloadFuzzingAttack(Attack):
 
         for fuzzing in range(self.turn):
 
-            if self.stoppedFlag is True:
+            if self.stopped_flag is True:
                 break
 
             while True:
@@ -123,22 +123,22 @@ class TestMQTTRandomPayloadAttack(unittest.TestCase):
     def tearDown(self):
         pass
 
-    def testName(self):
+    def test_name(self):
         self.assertEqual("MQTT Random Payload Fuzzing Attack", self.mqtt_random_payload_fuzzer.get_attack_name())
 
-    def testInputs(self):
+    def test_inputs(self):
         inputs = self.mqtt_random_payload_fuzzer.get_inputs()
         self.assertIsNotNone(inputs)
         self.assertGreater(len(inputs), 0, "Non inserted inputs")
         self.assertEquals(len(inputs), 5)
 
-    def testNonInitializedInputs(self):
+    def test_non_initialized_inputs(self):
         inputs = self.mqtt_random_payload_fuzzer.get_inputs()
         for _input in inputs:
             value = getattr(self.mqtt_random_payload_fuzzer, _input.get_name())
             self.assertTrue(value is None or type(value) == _input.get_type())
 
-    def testAfterGettingInputs(self):
+    def test_after_getting_inputs(self):
         example_inputs = ["a.b.c.d", "pen-topic", 12, 2, "pen-payload"]
         for index, _input in enumerate(example_inputs):
             self.mqtt_random_payload_fuzzer.inputs[index].set_value(_input)
@@ -153,7 +153,7 @@ class TestMQTTRandomPayloadAttack(unittest.TestCase):
             value = getattr(self.mqtt_random_payload_fuzzer, _input.get_name())
             self.assertEqual(example_inputs[index], value)
 
-    def testInvalidFuzzingTurn(self):
+    def test_invalid_fuzzing_turn(self):
         example_inputs = ["127.0.0.1", "peniot-topic", 1]
         for index, _input in enumerate(example_inputs):
             self.mqtt_random_payload_fuzzer.inputs[index].set_value(_input)
@@ -164,7 +164,7 @@ class TestMQTTRandomPayloadAttack(unittest.TestCase):
         except AssertionError as e:
             self.assertTrue(True)
 
-    def testRandomPayloadFuzzingAttack(self):
+    def test_random_payload_fuzzing_attack(self):
         def run_attack():
             example_inputs = ["127.0.0.1", "peniot/test", 3, 1, "peniot-bbdep"]
             for index, _input in enumerate(example_inputs):

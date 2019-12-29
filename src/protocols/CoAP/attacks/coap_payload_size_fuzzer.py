@@ -1,24 +1,22 @@
-from coapthon.client.helperclient import HelperClient
-
-from protocols import CoAP as PeniotCoAP
 import logging
 import multiprocessing
 import random
 import signal
-import sys
 import time
 import unittest
 
-from Entity.attack import Attack
-from Entity.input_format import InputFormat
+from coapthon.client.helperclient import HelperClient
 
-"""
-    CoAP Protocol - Payload Size Fuzzer Attack module
-    It is created to test any CoAP device as black box test with malformed or semi-malformed inputs
-"""
+from ....Entity.attack import Attack
+from ....Entity.input_format import InputFormat
+from ....protocols import CoAP as PeniotCoAP
 
 
 class CoAPPayloadSizeFuzzerAttack(Attack):
+    """
+    CoAP Protocol - Payload Size Fuzzer Attack module
+    It is created to test any CoAP device as black box test with malformed or semi-malformed inputs
+    """
     client = None
 
     # Input Fields
@@ -33,7 +31,7 @@ class CoAPPayloadSizeFuzzerAttack(Attack):
     logger = None
     max_payload_length = 2 ** 16 - 1
     sent_message_count = 0  # Transmitted fuzzing packets
-    stoppedFlag = False
+    stopped_flag = False
 
     def __init__(self):
         default_parameters = ["", "", "", "", 10, self.max_payload_length]
@@ -59,7 +57,7 @@ class CoAPPayloadSizeFuzzerAttack(Attack):
 
     def stop_attack(self):
         self.logger.info("Sent message count: {0}, exitting...".format(self.sent_message_count))
-        self.stoppedFlag = True
+        self.stopped_flag = True
         if self.client is not None:
             self.client.stop()
             self.client = None
@@ -85,7 +83,7 @@ class CoAPPayloadSizeFuzzerAttack(Attack):
         self.logger.info("Size payload fuzzing is started. Please consider it may take some time.")
         for payload_size in size_list:
 
-            if self.stoppedFlag is True:  # Attack is terminated
+            if self.stopped_flag is True:  # Attack is terminated
                 break
 
             # Create payload and send it
@@ -100,7 +98,7 @@ class CoAPPayloadSizeFuzzerAttack(Attack):
             fuzzing += 1
             time.sleep(1)
 
-        if self.stoppedFlag is False:
+        if self.stopped_flag is False:
             self.logger.info("Payload size attack is finished.")
         else:
             self.logger.info("Payload size attack has been terminated.")
@@ -117,22 +115,22 @@ class TestCoAPPayloadSizeAttack(unittest.TestCase):
     def tearDown(self):
         pass
 
-    def testName(self):
+    def test_name(self):
         self.assertEqual("CoAP Payload Size Fuzzer Attack", self.coap_payload_size_fuzzer.get_attack_name())
 
-    def testInputs(self):
+    def test_inputs(self):
         inputs = self.coap_payload_size_fuzzer.get_inputs()
         self.assertIsNotNone(inputs)
         self.assertGreater(len(inputs), 0, "Non inserted inputs")
         self.assertEquals(len(inputs), 6)
 
-    def testNonInitializedInputs(self):
+    def test_non_initialized_inputs(self):
         inputs = self.coap_payload_size_fuzzer.get_inputs()
         for _input in inputs:
             value = getattr(self.coap_payload_size_fuzzer, _input.get_name())
             self.assertTrue(value is None or type(value) == _input.get_type())
 
-    def testAfterGettingInputs(self):
+    def test_after_getting_inputs(self):
         example_inputs = ["a.b.c.d", 8888, "peniot-coap-test", "PuT", 13, 6583]
         for index, _input in enumerate(example_inputs):
             self.coap_payload_size_fuzzer.inputs[index].set_value(_input)
@@ -147,7 +145,7 @@ class TestCoAPPayloadSizeAttack(unittest.TestCase):
             value = getattr(self.coap_payload_size_fuzzer, _input.get_name())
             self.assertEqual(example_inputs[index], value)
 
-    def testInvalidMethod(self):
+    def test_invalid_method(self):
         example_inputs = ["127.0.0.1", 8888, "peniot-coap-test", "geT", 13, 6583]
         for index, _input in enumerate(example_inputs):
             self.coap_payload_size_fuzzer.inputs[index].set_value(_input)
@@ -158,7 +156,7 @@ class TestCoAPPayloadSizeAttack(unittest.TestCase):
         except AssertionError as e:
             self.assertTrue(True)
 
-    def testInvalidFuzzingTurn(self):
+    def test_invalid_fuzzing_turn(self):
         example_inputs = ["127.0.0.1", 8888, "peniot-coap-test", "puT", 1, 6583]
         for index, _input in enumerate(example_inputs):
             self.coap_payload_size_fuzzer.inputs[index].set_value(_input)
@@ -169,7 +167,7 @@ class TestCoAPPayloadSizeAttack(unittest.TestCase):
         except AssertionError as e:
             self.assertTrue(True)
 
-    def testPayloadSizeFuzzingAttack(self):
+    def test_payload_size_fuzzing_attack(self):
         def run_attack():
             example_inputs = ["127.0.0.1", 5683, "peniot", "pOsT", 3, 6583]
             for index, _input in enumerate(example_inputs):

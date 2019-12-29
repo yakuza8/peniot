@@ -1,15 +1,15 @@
 import logging
 
-from Entity.attack import Attack
-from Entity.input_format import InputFormat
-from protocols.BLE.ble_sniff import BLESniffer
-
-"""
-    BLE Protocol - BLE Sniff Attack Module
-"""
+from ....Entity.attack import Attack
+from ....Entity.input_format import InputFormat
+from ..ble_sniff import BLESniffer
 
 
 class BLESniffAttack(Attack):
+    """
+    BLE Protocol - BLE Sniff Attack Module
+    """
+
     # Input Fields
     port = "/dev/ttyUSB0"
     bleSni = None

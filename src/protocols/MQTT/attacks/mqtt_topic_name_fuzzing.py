@@ -1,23 +1,21 @@
+import logging
 import multiprocessing
+import signal
+import time
 import unittest
 
 import paho.mqtt.client as paho
 
-import logging
-import signal
-import time
-
-from Entity.attack import Attack
-from Entity.input_format import InputFormat
-from protocols import MQTT as PeniotMQTT
-
-"""
-    MQTT Protocol - Topic Name Fuzzer Attack module
-    It is created to test any MQTT device as black box test with malformed or semi-malformed inputs
-"""
+from ....Entity.attack import Attack
+from ....Entity.input_format import InputFormat
+from ....Utils.RandomUtil import random_generated_names
 
 
 class MQTTTopicNameFuzzingAttack(Attack):
+    """
+    MQTT Protocol - Topic Name Fuzzer Attack module
+    It is created to test any MQTT device as black box test with malformed or semi-malformed inputs
+    """
     client = None
 
     # Input Fields
@@ -53,7 +51,7 @@ class MQTTTopicNameFuzzingAttack(Attack):
         # sys.exit(0)
 
     def pre_attack_init(self):
-        self.client = paho.Client(PeniotMQTT.get_random_mqtt_client_name())
+        self.client = paho.Client(random_generated_names.get_random_client_name())
         try:
             self.client.connect(self.address)
         except Exception as e:  # We may fail to connect the broker if the adress is invalid so except it
@@ -89,22 +87,22 @@ class TestMQTTTopicNameFuzzingAttack(unittest.TestCase):
     def tearDown(self):
         pass
 
-    def testName(self):
+    def test_name(self):
         self.assertEqual("MQTT Topic Name Fuzzing Attack", self.mqtt_topic_name_fuzzer.get_attack_name())
 
-    def testInputs(self):
+    def test_inputs(self):
         inputs = self.mqtt_topic_name_fuzzer.get_inputs()
         self.assertIsNotNone(inputs)
         self.assertGreater(len(inputs), 0, "Non inserted inputs")
         self.assertEquals(len(inputs), 2)
 
-    def testNonInitializedInputs(self):
+    def test_non_initialized_inputs(self):
         inputs = self.mqtt_topic_name_fuzzer.get_inputs()
         for _input in inputs:
             value = getattr(self.mqtt_topic_name_fuzzer, _input.get_name())
             self.assertTrue(value is None or type(value) == _input.get_type())
 
-    def testAfterGettingInputs(self):
+    def test_after_getting_inputs(self):
         example_inputs = ["a.b.c.d", "peniot-test-cli"]
         for index, _input in enumerate(example_inputs):
             self.mqtt_topic_name_fuzzer.inputs[index].set_value(_input)
@@ -119,7 +117,7 @@ class TestMQTTTopicNameFuzzingAttack(unittest.TestCase):
             value = getattr(self.mqtt_topic_name_fuzzer, _input.get_name())
             self.assertEqual(example_inputs[index], value)
 
-    def testPayloadSizeFuzzingAttack(self):
+    def test_payload_size_fuzzing_attack(self):
         def run_attack():
             example_inputs = ["127.0.0.1", "peniot-cli"]
             for index, _input in enumerate(example_inputs):

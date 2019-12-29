@@ -1,4 +1,4 @@
-from Entity.protocol import Protocol
+from ...Entity.protocol import Protocol
 
 import unittest
 
@@ -35,10 +35,10 @@ class TestMQTTProtocol(unittest.TestCase):
     def tearDown(self):
         pass
 
-    def testName(self):
+    def test_name(self):
         self.assertEqual("MQTT", self.mqtt.get_protocol_name())
 
-    def testAttacks(self):
+    def test_attacks(self):
         attack_suites = self.mqtt.get_attack_suites()
         self.assertIsNotNone(attack_suites)
         self.assertEquals(len(attack_suites), 0)

@@ -1,15 +1,14 @@
 import logging
 
-from Entity.attack import Attack
-from Entity.input_format import InputFormat
-from protocols.BLE.ble_replay_attack import BLEReplayAttackHelper
-
-"""
-    BLE Protocol - BLE Replay Attack Module
-"""
+from ....Entity.attack import Attack
+from ....Entity.input_format import InputFormat
+from ..ble_replay_attack import BLEReplayAttackHelper
 
 
 class BLEReplayAttack(Attack):
+    """
+    BLE Protocol - BLE Replay Attack Module
+    """
     # Input Fields
     file_path = None
 

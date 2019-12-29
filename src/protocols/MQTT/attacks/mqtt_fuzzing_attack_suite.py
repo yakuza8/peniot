@@ -1,8 +1,8 @@
-from Entity.attack_suite import AttackSuite
 from mqtt_generation_based_fuzzing import *
 from mqtt_payload_size_fuzzer import *
 from mqtt_random_payload_fuzzing import *
-from protocols.MQTT.attacks.mqtt_topic_name_fuzzing import MQTTTopicNameFuzzingAttack
+from mqtt_topic_name_fuzzing import MQTTTopicNameFuzzingAttack
+from ....Entity.attack_suite import AttackSuite
 
 
 class MQTTFuzzingAttackSuite(AttackSuite):
@@ -19,16 +19,16 @@ class TestMQTTFuzzingAttackSuite(unittest.TestCase):
     def tearDown(self):
         pass
 
-    def testName(self):
+    def test_name(self):
         self.assertEqual("MQTT Fuzzing Attack Suite", self.mqtt_fuzzing_attack_suite.get_attack_suite_name())
 
-    def testAttackList(self):
+    def test_attack_list(self):
         attacks = self.mqtt_fuzzing_attack_suite.get_attacks()
         self.assertIsNotNone(attacks)
         self.assertGreater(len(attacks), 0, "Non inserted attacks")
         self.assertEquals(len(attacks), 4)
 
-    def testAttacks(self):
+    def test_attacks(self):
         attacks = self.mqtt_fuzzing_attack_suite.get_attacks()
         for attack in attacks:
             p = multiprocessing.Process(target=attack.run, name=attack.get_attack_name())

@@ -1,23 +1,19 @@
+import logging
 import multiprocessing
+import signal
+import time
 import unittest
 
 import pika
 
-import argparse
-import logging
-import time
-import signal
-import sys
-
-from Entity.attack import Attack
-from Entity.input_format import InputFormat
-
-"""
-    AMQP Protocol - DoS Attack Module
-"""
+from ....Entity.attack import Attack
+from ....Entity.input_format import InputFormat
 
 
 class AMQPDoSAttack(Attack):
+    """
+    AMQP Protocol - DoS Attack Module
+    """
     # Input Fields
     host = "localhost"
     queue = "peniot-queue"
@@ -32,7 +28,7 @@ class AMQPDoSAttack(Attack):
     channel = None
     logger = None
     sent_message_count = 0
-    stoppedFlag = False
+    stopped_flag = False
 
     def __init__(self):
         default_parameters = ["", "", "", "", "", "", 10.0]
@@ -61,7 +57,7 @@ class AMQPDoSAttack(Attack):
 
     def stop_attack(self):
         self.logger.info("Connection will be closed")
-        self.stoppedFlag = True
+        self.stopped_flag = True
         if self.connection is not None:
             self.connection.close()
         time.sleep(2)  # Sleep two seconds so the user can see the message
@@ -82,7 +78,7 @@ class AMQPDoSAttack(Attack):
         self.pre_attack_init()
 
         # Start client loop for requests
-        while self.stoppedFlag is True:
+        while self.stopped_flag is True:
             self.sent_message_count += 1
             self.channel.basic_publish(exchange=self.exchange, routing_key=self.routing_key, body=self.body)
             self.logger.info("{0} messages published.".format(str(self.sent_message_count)))
@@ -96,22 +92,22 @@ class TestMQTTDoSAttack(unittest.TestCase):
     def tearDown(self):
         pass
 
-    def testName(self):
+    def test_name(self):
         self.assertEqual("AMQP DoS Attack", self.amqp_dos_attack.get_attack_name())
 
-    def testInputs(self):
+    def test_inputs(self):
         inputs = self.amqp_dos_attack.get_inputs()
         self.assertIsNotNone(inputs)
         self.assertGreater(len(inputs), 0, "Non inserted inputs")
         self.assertEquals(len(inputs), 7)
 
-    def testNonInitializedInputs(self):
+    def test_non_initialized_inputs(self):
         inputs = self.amqp_dos_attack.get_inputs()
         for _input in inputs:
             value = getattr(self.amqp_dos_attack, _input.get_name())
             self.assertTrue(value is None or type(value) == _input.get_type())
 
-    def testAfterGettingInputs(self):
+    def test_after_getting_inputs(self):
         example_inputs = ["a.b.c.d", "pen-queue", "pen-exchange", "pen-routing-key", "peniot-payload", "pen-exh-type",
                           13.2]
         for index, _input in enumerate(example_inputs):
@@ -127,7 +123,7 @@ class TestMQTTDoSAttack(unittest.TestCase):
             value = getattr(self.amqp_dos_attack, _input.get_name())
             self.assertEqual(example_inputs[index], value)
 
-    def testDoSAttack(self):
+    def test_dos_attack(self):
         def run_attack():
             example_inputs = ["localhost", "peniot-queue", "peniot-exchange", "peniot-routing-key", "peniot-body",
                               "direct", 1]

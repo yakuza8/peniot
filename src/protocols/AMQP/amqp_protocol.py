@@ -1,6 +1,6 @@
 import unittest
 
-from Entity.protocol import Protocol
+from ...Entity.protocol import Protocol
 
 
 class AMQP(Protocol):
@@ -24,10 +24,10 @@ class TestAMQPProtocol(unittest.TestCase):
     def tearDown(self):
         pass
 
-    def testName(self):
+    def test_name(self):
         self.assertEqual("AMQP", self.amqp.get_protocol_name())
 
-    def testAttacks(self):
+    def test_attacks(self):
         attack_suites = self.amqp.get_attack_suites()
         self.assertIsNotNone(attack_suites)
         self.assertEquals(len(attack_suites), 0)

@@ -9,9 +9,9 @@ import signal
 import struct
 import time
 
-from Entity.attack import Attack
-from Entity.input_format import InputFormat
-from protocols import MQTT as PeniotMQTT
+from ....Entity.attack import Attack
+from ....Entity.input_format import InputFormat
+from ....Utils.RandomUtil import random_generated_names
 
 """
     MQTT Protocol - Payload Size Fuzzer Attack module
@@ -28,7 +28,7 @@ class MQTTGenerationBasedFuzzingAttack(Attack):
     # Misc Members
     sent_message_count = 0  # Transmitted fuzzing packets
     logger = None
-    stoppedFlag = False
+    stopped_flag = False
 
     subscribe = paho.SUBSCRIBE
     unsubscribe = paho.UNSUBSCRIBE
@@ -53,14 +53,14 @@ class MQTTGenerationBasedFuzzingAttack(Attack):
 
     def stop_attack(self):
         self.logger.info("Transmitted fuzzing packet count: {0}, exitting...".format(self.sent_message_count))
-        self.stoppedFlag=True
+        self.stopped_flag=True
         if (self.client is not None):
             self.client.disconnect() #Close the connection before exitting
         time.sleep(2)   #Sleep two seconds so the user can see the message
         #sys.exit(0)
 
     def pre_attack_init(self):
-        self.client = paho.Client(PeniotMQTT.get_random_mqtt_client_name())
+        self.client = paho.Client(random_generated_names.get_random_client_name())
         try:
             self.client.connect(self.address)
         except Exception as e:
@@ -162,7 +162,7 @@ class MQTTGenerationBasedFuzzingAttack(Attack):
 
         for test_case in test_cases:
 
-            if self.stoppedFlag is True:
+            if self.stopped_flag is True:
                 break
             
             self.send_subscribe_or_unsubscribe(
@@ -184,22 +184,22 @@ class TestMQTTGenerationBasedFuzzingAttack(unittest.TestCase):
     def tearDown(self):
         pass
 
-    def testName(self):
+    def test_name(self):
         self.assertEqual("MQTT Generation Based Fuzzing Attack", self.mqtt_generation_based_fuzzer.get_attack_name())
 
-    def testInputs(self):
+    def test_inputs(self):
         inputs = self.mqtt_generation_based_fuzzer.get_inputs()
         self.assertIsNotNone(inputs)
         self.assertGreater(len(inputs), 0, "Non inserted inputs")
         self.assertEquals(len(inputs), 1)
 
-    def testNonInitializedInputs(self):
+    def test_non_initialized_inputs(self):
         inputs = self.mqtt_generation_based_fuzzer.get_inputs()
         for _input in inputs:
             value = getattr(self.mqtt_generation_based_fuzzer, _input.get_name())
             self.assertTrue(value is None or type(value) == _input.get_type())
 
-    def testAfterGettingInputs(self):
+    def test_after_getting_inputs(self):
         example_inputs = ["a.b.c.d"]
         for index, _input in enumerate(example_inputs):
             self.mqtt_generation_based_fuzzer.inputs[index].set_value(_input)
