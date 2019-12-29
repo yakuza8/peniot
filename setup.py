@@ -5,9 +5,6 @@ setup(name='Peniot',
       description='Penetration Testing Tool for IoT devices',
       author='Berat Cankar,Bilgehan Bingol,Ebru Celebi,Dogukan Cavdaroglu',
       packages=['src', 'src.BLE', 'src.MQTT', 'src.RPL'],
-      requires=['bluepy', 'paho.mqtt', 'scapy', 'pyshark', 'paho-mqtt', 'kivy', 'coapthon', 'Cython', 'pygame', 'pika',
-                'fpdf'],
-      classifiers=[
-          'Programming Language :: Python :: 2.7.9'
-      ]
-      )
+      requires=['bluepy', 'paho.mqtt', 'scapy', 'pyshark', 'paho-mqtt', 'kivy', 'coapthon', 'Cython', 'pygame', 'pika', 'fpdf'],
+      classifiers=['Programming Language :: Python :: 2.7.9']
+)

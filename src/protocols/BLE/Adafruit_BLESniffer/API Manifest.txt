@@ -1,0 +1,24 @@
+API Manifest.txt
+documentation.html
+example.py
+LICENSE.txt
+Nordic Semiconductor Sniffer API Guide.pdf
+sniffer_uart_protocol.xlsx
+
+wireshark_dissector_source
+	packet-btle.c
+	packet-nordic_ble.c
+
+SnifferAPI
+	CaptureFiles.py
+	Devices.py
+	Exceptions.py
+	Logger.py
+	myVersion.py
+	Notifications.py
+	Packet.py
+	Sniffer.py
+	SnifferCollector.py
+	UART.py
+	Version.py
+	__init__.py

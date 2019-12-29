@@ -1,0 +1,434 @@
+<html>
+<style>
+table
+{
+width:850px;
+}
+table,th,td
+{
+border:1px solid black;
+border-collapse:collapse
+}
+
+div
+{
+width:auto;
+}
+
+
+tr.trh
+{
+background-color:#A4A4A4;
+}
+
+tr.tr1:nth-of-type(2n)
+{
+background-color:#E6E6E6;
+}
+
+#td1
+{
+    border: 1px solid black;
+    overflow: hidden;
+    width: 10px;
+}
+
+#index-span
+{
+width:500px;
+border:0px solid black;
+padding-left: 0px;
+
+}
+
+.index
+{
+width:80px
+}
+
+
+
+</style>
+
+<h3 id="sniffer">Sniffer</h3>
+The entry point for the API.
+<table>
+<tr class="trh">
+  <th>Field</th>
+  <th>Type</th> 
+  <th>Description</th>
+</tr>
+<tr class="tr1">
+  <td id="td1">missedPackets</td>
+  <td>int</td> 
+  <td>The number of missed packets over the UART, as determined by the packet counter in the header. Derived using the <a href="#tr-packetCounter">packetCounter</a> field.</td>
+</tr>
+<tr class="tr1">
+  <td>packetsInLastConnection</td>
+  <td>int</td> 
+  <td>The number of packets which were sniffed in the last BLE connection. From CONNECT_REQ until link loss/termination.</td>
+</tr>
+<tr class="tr1">
+  <td>connectEventPacketCounterValue</td>
+  <td>int</td> 
+  <td>The packet counter value of the last received connect request.</td>
+</tr>
+<tr class="tr1">
+  <td>inConnection</td>
+  <td>bool</td> 
+  <td>A boolean indicating whether the sniffed device is in a connection.</td>
+</tr>
+<tr class="tr1">
+  <td>currentConnectRequest</td>
+  <td><a href="#h3-packet">Packet</a></td> 
+  <td>A Packet object containing the last received connect request.</td>
+</tr>
+<tr class="tr1">
+  <td>state</td>
+  <td>int</td> 
+  <td>The internal state of the sniffer. States are defined in SnifferCollector module. Valid values are 0-2.</td>
+</tr>
+<tr class="tr1">
+  <td>portnum</td>
+  <td>int or string</td> 
+  <td>The COM port of the sniffer hardware. During initialization, this value is a preset.</td>
+</tr>
+<tr class="tr1">
+  <td>swversion</td>
+  <td>int</td> 
+  <td>The version number of the API software.</td>
+</tr>
+<tr class="tr1">
+  <td>fwversion</td>
+  <td>int</td> 
+  <td>The version number of the sniffer firmware.</td>
+</tr>
+<tr class="trh">
+  <th>Function</th>
+  <th>Type</th> 
+  <th>Description</th>
+</tr>
+<tr class="tr1">
+  <td>__init__(portnum)</td>
+  <td><a href="#h3-sniffer">Sniffer</a></td> 
+  <td>Constructor for the Sniffer class. The optional argument "portnum" is a string with the name of the port the sniffer board is at, e.g. "COM17". If not provided, the API will locate it automatically, but this takes more time.</td>
+</tr>
+<tr class="tr1">
+  <td>start()</td>
+  <td>void</a></td> 
+  <td>Starts the Sniffer thread. This call must be made (once and only once) before using the sniffer object.</td>
+</tr>
+<tr class="tr1">
+  <td>getPackets(number)</td>
+  <td>List<<a href="#h3-packet">Packet</a>></td> 
+  <td>Get [number] number of packets since last fetch (-1 means all). Note that the packet buffer is limited to about 80000 packets. </td>
+</tr>
+<tr class="tr1">
+  <td>getDevices()</td>
+  <td><a href="#h3-deviceList">DeviceList</a></td> 
+  <td>Get a list of devices which are advertising in range of the Sniffer.</td>
+</tr>
+<tr class="tr1">
+  <td>follow(<a href="#h3-device">device</a>, followOnlyAdvertisements)</td>
+  <td>void</td> 
+  <td>Signal the Sniffer firmware to sniff a specific device. If followOnlyAdvertisements is True, the sniffer will not sniff a connection, only advertisements from the followed device.</td>
+</tr>
+<tr class="tr1">
+  <td>scan()</td>
+  <td>void</td> 
+  <td>Signal the Sniffer to scan for advertising devices by sending the REQ_SCAN_CONT UART packet. This will cause it to stop sniffing any device it is sniffing at the moment.</td>
+</tr>
+<tr class="tr1">
+  <td>sendTK(TK)</td>
+  <td>void</td> 
+  <td>Send a temporary key to the sniffer for use when decrypting encrypted connections. TK is a list of 16 ints, each representing a byte in the temporary key. TK is on big-endian form.</td>
+</tr>
+<tr class="tr1">
+  <td>setPortnum(portnum)</td>
+  <td>void</td> 
+  <td>Set the preset COM port number. Only use this during startup. Set to None to search all ports.</td>
+</tr>
+<tr class="tr1">
+  <td>doExit()</td>
+  <td>void</td> 
+  <td>Gracefully shut down the sniffer threads and connections.</td>
+</tr>
+</table>
+
+<h3 id="device">Device</h3>
+Class representing a BLE device from which the sniffer has picked up data.
+<table>
+<tr class="trh">
+  <th>Field</th>
+  <th>Type</th> 
+  <th>Description</th>
+</tr>
+<tr class="tr1" id="td-address">
+  <td>address</td>
+  <td>List< int ></td> 
+  <td>A list representing the device address of this device: [int, int, int, int, int, int]</td>
+</tr>
+<tr class="tr1">
+  <td>txAdd</td>
+  <td>bool</td> 
+  <td>A boolean representing whether the device address is public (False) or random (True).</td>
+</tr>
+<tr class="tr1" id="tr-name">
+  <td>name</td>
+  <td>string</td> 
+  <td>A string containing the name (short or complete) of the device.</td>
+</tr>
+<tr class="tr1">
+  <td>RSSI</td>
+  <td>int</td> 
+  <td>An int representing the approximate RSSI value of packets received from this device.</td>
+</tr>
+</table>
+
+<h3 id="devicelist">DeviceList</h3>
+A class representing a list of devices. Used to simplify extraction of devices using BLE metadata.
+<table>
+<tr class="trh">
+  <th>Function</th>
+  <th>Type</th> 
+  <th>Description</th>
+</tr>
+<tr class="tr1" id="tr-find">
+  <td>find(id)</td>
+  <td><a href="#device">Device</a></td> 
+  <td>Find a device in this DeviceList using either <a href="#tr-name">name</a> or <a href="#tr-address">address</a>. Returns None if no device is found.</td>
+</tr>
+<tr class="tr1">
+  <td>remove(id)</td>
+  <td><a href="#device">Device</a></td> 
+  <td>Remove a device from this DeviceList. Argument "id" has same format as in <a href="#tr-find">find</a>.</td>
+</tr>
+<tr class="tr1">
+  <td>append(<a href="#h3-device">Device</a>)</td>
+  <td>void</td> 
+  <td>Append a Device to the device list.</td>
+</tr>
+<tr class="tr1">
+  <td>index(<a href="#h3-device">Device</a>)</td>
+  <td>int</td> 
+  <td>Returns the index of the provided Device.</td>
+</tr>
+<tr class="tr1">
+  <td>getList()</td>
+  <td>List<<a href="#h3-device">Device</a>></td> 
+  <td>Returns a list of the Devices in this DeviceList.</td>
+</tr>
+</table>
+<br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
+<h3 id="packet">Packet</h3>
+Represents the UART packet sent by the sniffer to the host.
+<table>
+<tr class="trh">
+  <th>Field</th>
+  <th>Type</th> 
+  <th>Description</th>
+</tr>
+<tr class="tr1">
+  <td>headerLength</td>
+  <td>int</td> 
+  <td>The length of the UART header.</td>
+  <td rowspan="5"> UART header </td>
+</tr>
+<tr class="tr1">
+  <td>payloadLength</td>
+  <td>int</td> 
+  <td>The length of the UART payload.</td>
+</tr>
+<tr class="tr1">
+  <td>protover</td>
+  <td>int</td> 
+  <td>The UART protocol version used.</td>
+</tr>
+<tr  class="tr1" id="tr-packetCounter">
+  <td>packetCounter</td>
+  <td>int</td> 
+  <td>Unique (16 bit) packet identifier which increments for each packet sent by the sniffer.</td>
+</tr>
+<tr class="tr1">
+  <td>id</td>
+  <td>int</td> 
+  <td>Identifier telling what type of packet this is. See UART protocol document.</td>
+</tr>
+<!--tr class="tr1">
+  <td></td>
+  <td></td> 
+  <td></td>
+</tr>
+<tr class="tr1">
+  <td></td>
+  <td></td> 
+  <td></td>
+</tr-->
+<tr class="tr1">
+  <td>bleHeaderLength</td>
+  <td>int</td> 
+  <td>Length of the NRF_BLE_PACKET header.</td>
+  <td rowspan="9"> NRF_BLE_PACKET header </td>
+</tr>
+<tr class="tr1">
+  <td>crcOK</td>
+  <td>bool</td> 
+  <td>Was the CRC received by the sniffer OK.</td>
+</tr>
+<tr class="tr1">
+  <td>micOK</td>
+  <td>bool</td> 
+  <td>Is the message integriy check OK. Only relevant in encrypted state.</td>
+</tr>
+<tr class="tr1">
+  <td>direction</td>
+  <td>bool</td> 
+  <td>Only relevant during connection. True -> Master to Slave, False -> Slave to Master</td>
+</tr>
+<tr  class="tr1">
+  <td>encrypted</td>
+  <td>bool</td> 
+  <td>has the packet been encrypted.</td>
+</tr>
+
+<tr class="tr1">
+  <td>channel</td>
+  <td>int</td> 
+  <td>Which channel was the packet picked up from [0 - 39]</td>
+</tr>
+<tr class="tr1">
+  <td>RSSI</td>
+  <td>int</td> 
+  <td>The RSSI value reported by the sniffer. NOT PRECISE. Real value is the negative of this value.</td>
+</tr>
+
+<tr class="tr1">
+  <td>eventCounter</td>
+  <td>int</td> 
+  <td>The eventcounter of the packet in the connection. Only relevant for packets in a connection.</td>
+</tr>
+<tr class="tr1">
+  <td>timestamp</td>
+  <td>int</td> 
+  <td>Microseconds from the end of the last packet to the start of this one.</td>
+</tr>
+
+<tr class="tr1">
+  <td>blePacket</td>
+  <td><a href="#blepacket"> BlePacket</a></td> 
+  <td>The blePacket contained within this packet.</td>
+  <td rowspan="6"> Other </td>
+</tr>
+
+<tr class="tr1">
+  <td>packetList</td>
+  <td>List< int ></td> 
+  <td>The entire UART packet as sent by the sniffer (with the exception of a padding byte which is removed).</td>
+</tr>
+<tr class="tr1">
+  <td>OK</td>
+  <td>bool</td> 
+  <td>Is the error detection of the attached BLE packet OK?</td>
+</tr>
+<tr class="tr1">
+  <td>payload</td>
+  <td>List< int ></td> 
+  <td>List containing the UART payload as bytes.</td>
+</tr>
+
+<tr class="tr1">
+  <td>txADD</td>
+  <td>bool</td> 
+  <td>Is the address public or random? True -> Random, False -> Public. Only relevant for advertisement packets.</td>
+</tr>
+<tr class="tr1">
+  <td>version</td>
+  <td>int</td> 
+  <td>The firmware version of the sniffer. Only sent in PING_RESP packets.</td>
+</tr>
+</table>
+
+<h3 id="blepacket">BlePacket</h3>
+Represents the BLE packet received over the air by the sniffer.
+<table>
+<tr class="trh">
+  <th>Field</th>
+  <th>Type</th> 
+  <th>Description</th>
+</tr>
+<tr class="tr1">
+  <td>accessAddress</td>
+  <td>List< int ></td> 
+  <td>A list of bytes representing the access for this packet.</td>
+</tr>	
+<tr class="tr1">
+  <td>advType</td>
+  <td>int</td> 
+  <td>The advertisement type field.</td>
+</tr>	
+<tr class="tr1">
+  <td>advAddress</td>
+  <td>List< int ></td> 
+  <td>The advertising address.</td>
+</tr>
+<tr class="tr1">
+  <td>name</td>
+  <td>string</td> 
+  <td>The value of the localname property of the ble packet.</td>
+</tr>
+<tr class="tr1">
+  <td>payload</td>
+  <td>List< int ></td> 
+  <td>The entire BLE payload (not including access address and header fields).</td>
+</tr>
+<tr class="tr1">
+  <td>length</td>
+  <td>int</td> 
+  <td>The value of the length field of the BLE PDU</td>
+</tr>
+</table>
+
+<h3 id="exceptions">Exceptions</h3>
+The exceptions raised by the API.
+<table>
+<tr class="trh">
+  <th>Exception</th>
+  <th>Description</th>
+</tr>
+<tr class="tr1">
+  <td>SnifferTimeout</td>
+  <td>UART read time out.</td>
+</tr>
+<tr class="tr1">
+  <td>UARTPacketError</td>
+  <td>UART SLIP parsing error.</td>
+</tr>
+<tr class="tr1">
+  <td>InvalidPacketException</td>
+  <td>Other UART parsing error.</td>
+</tr>
+</table>
+
+<!--
+<h3 id="exceptions">Exceptions</h3>
+
+<table>
+<tr class="trh">
+  <th>Field</th>
+  <th>Type</th> 
+  <th>Description</th>
+</tr>
+<tr class="tr1">
+  <td></td>
+  <td></td> 
+  <td></td>
+</tr>
+<tr class="tr1">
+  <td></td>
+  <td></td> 
+  <td></td>
+</tr>
+</table>
+-->
+
+</html>
