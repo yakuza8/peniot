@@ -2,14 +2,14 @@
 
 #### Table of Contents
 * [Project Description](#Project-Description)
-    * [What is PENIOT?](#What-is-PENIOT?)
-    * [Why is PENIOT required?](#Why-is-PENIOT-required?)
-    * [What does PENIOT provide?](#What-does-PENIOT-provide?)
+    * [What is PENIOT?](#What-is-PENIOT)
+    * [Why is PENIOT required?](#Why-is-PENIOT-required)
+    * [What does PENIOT provide?](#What-does-PENIOT-provide)
 * [Build Instructions](#Build-Instructions)
 * [Documentation](#Documentation)
 * [Testing](#Testing)
 * [Contributors](#Contributors)
-* [Developer's Note](#Developer's-Note)
+* [Developer's Note](#Developers-Note)
 * [Project Poster](#Project-Poster)
 
 ## Project Description
