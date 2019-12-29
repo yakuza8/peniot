@@ -85,6 +85,12 @@ representation of how PENIOT is separated modules and how it is designed.
 <img src="/resources/diagrams/peniot_structure_component_diagram.png">
 </p>
 
+### Testing
+Most of the attacks have their own sample integration tests under their attack scripts. In
+order to run those tests, you need to have a running program for that protocol. We try to
+provide you with example programs for each protocol where one can find server/client scripts
+under each protocols **examples** directory. 
+
 ## Project Poster
 <p align="center">
 <img src="/resources/peniot_vectorized.svg">
