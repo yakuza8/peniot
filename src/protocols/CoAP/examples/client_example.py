@@ -33,7 +33,7 @@ def client_procedure(host, port, path):
     Client procedure for CoAP
     :param host: Host address to connect
     :param port: Port number of server
-    :param path: Path as endpoint to request resource
+    :param path: Path as endpoint to request resources
     :return: None
     """
     # Signal handler to exit from function
@@ -55,7 +55,7 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument("-H", "--host", help="Host string of server", default=DEFAULT_HOST)
     parser.add_argument("-P", "--port", help="Port number of server", default=DEFAULT_PORT, type=int)
-    parser.add_argument("-e", "--endpoint", help="Path of resource", default=DEFAULT_PATH)
+    parser.add_argument("-e", "--endpoint", help="Path of resources", default=DEFAULT_PATH)
     args = parser.parse_args()
 
     client_procedure(args.host, args.port, args.endpoint)
