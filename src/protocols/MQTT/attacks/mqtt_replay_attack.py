@@ -11,13 +11,12 @@ from ....Entity.input_format import InputFormat
 from ....Utils.RandomUtil import random_generated_names
 from ....Utils.SnifferUtil import generic_sniffer
 
-"""
-    MQTT Protocol - Replay Attack Module
-    Performs a replay attack using the inputs which are provided by the user
-"""
-
 
 class MQTTReplayAttack(Attack):
+    """
+    MQTT Protocol - Replay Attack Module
+    Performs a replay attack using the inputs which are provided by the user
+    """
     client = None
     captured_packets = None
 

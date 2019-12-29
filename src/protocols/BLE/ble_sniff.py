@@ -2,9 +2,9 @@ import os
 import sys
 import time
 
-from Utils import CommonUtil
-from protocols.BLE.Adafruit_BLESniffer import sniffer
-from protocols.BLE.Adafruit_BLESniffer.SnifferAPI import CaptureFiles
+from ...Utils import CommonUtil
+from Adafruit_BLESniffer import sniffer
+from Adafruit_BLESniffer.SnifferAPI import CaptureFiles
 
 
 class BLESniffer:

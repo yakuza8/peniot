@@ -11,13 +11,12 @@ from ....Entity.attack import Attack
 from ....Entity.input_format import InputFormat
 from ....Utils.RandomUtil import random_generated_names
 
-"""
-    MQTT Protocol - Payload Size Fuzzer Attack module
-    It is created to test any MQTT device as black box test with malformed or semi-malformed inputs
-"""
-
 
 class MQTTPayloadSizeFuzzerAttack(Attack):
+    """
+    MQTT Protocol - Payload Size Fuzzer Attack module
+    It is created to test any MQTT device as black box test with malformed or semi-malformed inputs
+    """
     client = None
 
     # Input Fields
@@ -90,7 +89,8 @@ class MQTTPayloadSizeFuzzerAttack(Attack):
             self.client.publish(self.topic, sized_payload)
 
             # Increment sent message count
-            self.logger.info("Turn {0} is completed and {1} bytes of message is sent.".format(fuzzing + 1, payload_size))
+            self.logger.info(
+                "Turn {0} is completed and {1} bytes of message is sent.".format(fuzzing + 1, payload_size))
             self.sent_message_count += 1
             fuzzing += 1
             time.sleep(1)

@@ -11,19 +11,19 @@ mqtt_port_ssl = 8883
 # Capturing via TShark
 mqtt_layer_filter = "mqtt"
 
-"""
-    This class is used to scan for a MQTT device.
-    It captures packets from the network and try to find MQTT devices.
-"""
-
 
 class MQTTScanner:
+    """
+    This class is used to scan for a MQTT device.
+    It captures packets from the network and try to find MQTT devices.
+    """
 
     def __init__(self):
         pass
 
     @staticmethod
-    def scan(timeout=generic_sniffer.DEFAULT_SNIFF_TIMEOUT, interface=generic_sniffer.DEFAULT_INTERFACE, use_json_and_include_raw=False, output_pcap_filename=None):
+    def scan(timeout=generic_sniffer.DEFAULT_SNIFF_TIMEOUT, interface=generic_sniffer.DEFAULT_INTERFACE,
+             use_json_and_include_raw=False, output_pcap_filename=None):
         sniffer = generic_sniffer.GenericSniffer(timeout=timeout, interface=interface,
                                                  use_json=use_json_and_include_raw,
                                                  include_raw=use_json_and_include_raw,

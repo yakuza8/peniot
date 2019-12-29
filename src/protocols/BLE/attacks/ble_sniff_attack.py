@@ -9,7 +9,6 @@ class BLESniffAttack(Attack):
     """
     BLE Protocol - BLE Sniff Attack Module
     """
-
     # Input Fields
     port = "/dev/ttyUSB0"
     bleSni = None

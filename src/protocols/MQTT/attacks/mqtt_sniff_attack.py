@@ -9,13 +9,12 @@ from ....Entity.input_format import InputFormat
 from ....Utils import CommonUtil
 from ....Utils.SnifferUtil import generic_sniffer
 
-"""
-    MQTT Protocol - Sniff Attack module
-    It is created to scan/sniff the devices for their information
-"""
-
 
 class MQTTSniffAttack(Attack):
+    """
+    MQTT Protocol - Sniff Attack module
+    It is created to scan/sniff the devices for their information
+    """
     # Input Fields
     timeout = generic_sniffer.DEFAULT_SNIFF_TIMEOUT
     interface = generic_sniffer.DEFAULT_INTERFACE

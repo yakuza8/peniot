@@ -13,13 +13,12 @@ from ....Entity.input_format import InputFormat
 from ....Utils.FuzzerUtil import radamsa_util as rdm
 from ....Utils.RandomUtil import random_generated_names
 
-"""
-    MQTT Protocol - Random Payload Fuzzing Attack module
-    It is created to test any MQTT device as black box test with malformed or semi-malformed inputs
-"""
-
 
 class MQTTRandomPayloadFuzzingAttack(Attack):
+    """
+    MQTT Protocol - Random Payload Fuzzing Attack module
+    It is created to test any MQTT device as black box test with malformed or semi-malformed inputs
+    """
     client = None
 
     # Input Fields

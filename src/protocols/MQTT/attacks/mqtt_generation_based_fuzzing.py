@@ -13,13 +13,12 @@ from ....Entity.attack import Attack
 from ....Entity.input_format import InputFormat
 from ....Utils.RandomUtil import random_generated_names
 
-"""
-    MQTT Protocol - Payload Size Fuzzer Attack module
-    It is created to test any MQTT device as black box test with malformed or semi-malformed inputs
-"""
-
 
 class MQTTGenerationBasedFuzzingAttack(Attack):
+    """
+    MQTT Protocol - Payload Size Fuzzer Attack module
+    It is created to test any MQTT device as black box test with malformed or semi-malformed inputs
+    """
     client = None
 
     # Input Fields
@@ -53,11 +52,11 @@ class MQTTGenerationBasedFuzzingAttack(Attack):
 
     def stop_attack(self):
         self.logger.info("Transmitted fuzzing packet count: {0}, exitting...".format(self.sent_message_count))
-        self.stopped_flag=True
+        self.stopped_flag = True
         if (self.client is not None):
-            self.client.disconnect() #Close the connection before exitting
-        time.sleep(2)   #Sleep two seconds so the user can see the message
-        #sys.exit(0)
+            self.client.disconnect()  # Close the connection before exitting
+        time.sleep(2)  # Sleep two seconds so the user can see the message
+        # sys.exit(0)
 
     def pre_attack_init(self):
         self.client = paho.Client(random_generated_names.get_random_client_name())
@@ -149,14 +148,18 @@ class MQTTGenerationBasedFuzzingAttack(Attack):
                  , dup=False, optional_remaining_length=2, command_dup_shift_times=5, command_base_xor_part=0x2),
             dict(message_type=subscribe, topics=[self.random_topic_generator(subscribe, random_strings, random_qosses)]
                  , dup=False, optional_remaining_length=2, command_dup_shift_times=3, command_base_xor_part=0x5),
-            dict(message_type=unsubscribe, topics=[self.random_topic_generator(unsubscribe, random_strings, random_qosses)]
+            dict(message_type=unsubscribe,
+                 topics=[self.random_topic_generator(unsubscribe, random_strings, random_qosses)]
                  , dup=False, optional_remaining_length=2, command_dup_shift_times=3, command_base_xor_part=0x2),
-            dict(message_type=unsubscribe, topics=[self.random_topic_generator(unsubscribe, random_strings, random_qosses),
-                                                   self.random_topic_generator(unsubscribe, random_strings, random_qosses)]
+            dict(message_type=unsubscribe,
+                 topics=[self.random_topic_generator(unsubscribe, random_strings, random_qosses),
+                         self.random_topic_generator(unsubscribe, random_strings, random_qosses)]
                  , dup=False, optional_remaining_length=3, command_dup_shift_times=3, command_base_xor_part=0x2),
-            dict(message_type=unsubscribe, topics=[self.random_topic_generator(unsubscribe, random_strings, random_qosses)]
+            dict(message_type=unsubscribe,
+                 topics=[self.random_topic_generator(unsubscribe, random_strings, random_qosses)]
                  , dup=False, optional_remaining_length=2, command_dup_shift_times=5, command_base_xor_part=0x2),
-            dict(message_type=unsubscribe, topics=[self.random_topic_generator(unsubscribe, random_strings, random_qosses)]
+            dict(message_type=unsubscribe,
+                 topics=[self.random_topic_generator(unsubscribe, random_strings, random_qosses)]
                  , dup=False, optional_remaining_length=2, command_dup_shift_times=3, command_base_xor_part=0x5)
         ]
 
@@ -164,7 +167,7 @@ class MQTTGenerationBasedFuzzingAttack(Attack):
 
             if self.stopped_flag is True:
                 break
-            
+
             self.send_subscribe_or_unsubscribe(
                 self.client, test_case["message_type"], test_case["topics"],
                 test_case["dup"], test_case["optional_remaining_length"],
