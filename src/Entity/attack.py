@@ -1,9 +1,6 @@
-import sys
 import logging
 
-sys.path.append("..")
-
-import GUI.hard_coded_texts as hct
+from ..GUI import hard_coded_texts as hct
 
 
 class Attack(object):
@@ -17,7 +14,7 @@ class Attack(object):
         self.default_parameters = default_parameters
         self.definition = definition
         if logger is None:
-            self.logger = logging.getLogger(hct.get_loggerName())
+            self.logger = logging.getLogger(hct.get_logger_name())
         else:
             self.logger = logging.getLogger("Default logger")
 
