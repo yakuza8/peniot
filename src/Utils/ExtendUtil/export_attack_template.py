@@ -11,32 +11,32 @@
 # Do not change any of the import statements, we will provide their contents to you
 # Moreover, you do not need to export any other file than your attack
 import logging
-from Entity.attack import Attack
-from Entity.input_format import InputFormat
+
+from ...Entity.attack import Attack
 
 
 class _ATTACK_COMBINED_NAME(Attack):
 
     """
-        Input Fields
-        ** Important Note **: Each input must appear in the following lines of code for example, you can have following
-        configuration in attack input list
+    Input Fields
+    ** Important Note **: Each input must appear in the following lines of code for example, you can have following
+    configuration in attack input list
 
-        * For input format class, you need to fill following fields:
-            1) Label of input to be displayed in GUI
-            2) Name of member variable in this class, they need to match with following declarations
-            3) If exist, default value. You may set it "" or None
-            4) Type of input value to check/cast
-        inputs = [
-            InputFormat("Port Number", "port", self.port, int),
-            InputFormat("Timeout", "timeout", self.timeout, float)
-            ...
-        ]
-
-        * Then your attack class must have following member variables (Values are used for exemplifying)
-        port = 8080
-        timeout = 0.01
+    * For input format class, you need to fill following fields:
+        1) Label of input to be displayed in GUI
+        2) Name of member variable in this class, they need to match with following declarations
+        3) If exist, default value. You may set it "" or None
+        4) Type of input value to check/cast
+    inputs = [
+        InputFormat("Port Number", "port", self.port, int),
+        InputFormat("Timeout", "timeout", self.timeout, float)
         ...
+    ]
+
+    * Then your attack class must have following member variables (Values are used for exemplifying)
+    port = 8080
+    timeout = 0.01
+    ...
     """
 
     """
@@ -52,7 +52,8 @@ class _ATTACK_COMBINED_NAME(Attack):
 
         # Auto generated attack name, you can change attack name to be displayed in graphical user interface
         attack_name = "_ATTACK_NAME"
-        # Auto generated attack description, you can change or add description for the new attack, you can browse it from ? button nearby attacks in attack menu
+        # Auto generated attack description, you can change or add description for the new attack,
+        # you can browse it from ? button nearby attacks in attack menu
         description = "_ATTACK_NAME Description"
 
         Attack.__init__(self, attack_name, inputs, description)

@@ -8,8 +8,6 @@ import shutil
 import tarfile
 import zipfile
 
-import Utils.RandomUtil.random_generated_names as random_util
-
 logging.basicConfig(level=logging.DEBUG, format="%(asctime)s:%(levelname)s:%(name)s : %(message)s")
 logger = logging.getLogger("Util - Import")
 
@@ -25,59 +23,61 @@ class ImportOptions(Enum):
 
 
 class ImportUtil(object):
-
     # Path related variables
     BASE_PATH_OF_TEMP = os.path.dirname(os.path.abspath(__file__))
     PROTOCOLS_DIR_NAME = "../../protocols"
     TEMP_FULL_PATH = BASE_PATH_OF_TEMP + "/" + PROTOCOLS_DIR_NAME
+    TEMP_DIR_NAME = ".tmp"
 
     # Get entities
     ENTITY_PATH = BASE_PATH_OF_TEMP + "/../../Entity/"
-    ENTITIES = [_ for _ in listdir(ENTITY_PATH) if isfile(join(ENTITY_PATH, _)) and not _.startswith("__") and not _.endswith(".pyc")]
+    ENTITIES = [_ for _ in listdir(ENTITY_PATH) if
+                isfile(join(ENTITY_PATH, _)) and not _.startswith("__") and not _.endswith(".pyc")]
 
     @staticmethod
     def startup():
-        # """
-        # Startup function that will be called program starting point in order to create necessary containers
-        # Currently creates the followings:
-        #     * Temporary directory imported files
-        # """
-        # try:
-        #     if os.path.isdir(ImportUtil.TEMP_FULL_PATH):
-        #         shutil.rmtree(ImportUtil.TEMP_FULL_PATH)
-        #     os.mkdir(ImportUtil.TEMP_FULL_PATH)
-        #     # make this directory a package
-        #     os.open(ImportUtil.TEMP_FULL_PATH+"/__init__.py", os.O_CREAT)
-        # except OSError:
-        #     logger.error("Creation of the directory {0} failed.".format(ImportUtil.TEMP_DIR_NAME))
-        # else:
-        #     logger.info("Creation of the directory {0} successfully done.".format(ImportUtil.TEMP_DIR_NAME))
+        """
+        Startup function that will be called program starting point in order to create necessary containers
+        Currently creates the followings:
+            * Temporary directory imported files
+        """
+        try:
+            if os.path.isdir(ImportUtil.TEMP_FULL_PATH):
+                shutil.rmtree(ImportUtil.TEMP_FULL_PATH)
+            os.mkdir(ImportUtil.TEMP_FULL_PATH)
+            # make this directory a package
+            os.open(ImportUtil.TEMP_FULL_PATH+"/__init__.py", os.O_CREAT)
+        except OSError:
+            logger.error("Creation of the directory {0} failed.".format(ImportUtil.TEMP_DIR_NAME))
+        else:
+            logger.info("Creation of the directory {0} successfully done.".format(ImportUtil.TEMP_DIR_NAME))
         pass
 
     @staticmethod
     def shutdown():
-        # """
-        # Shutdown function that will be exit stage of program in order to clean everything that are already created
-        # """
-        # try:
-        #     if os.path.isdir(ImportUtil.TEMP_FULL_PATH):
-        #         shutil.rmtree(ImportUtil.TEMP_FULL_PATH)
-        # except OSError:
-        #     logger.error("Deletion of the directory {0} failed.".format(ImportUtil.TEMP_DIR_NAME))
-        # else:
-        #     logger.info("Deletion of the directory {0} successfully done.".format(ImportUtil.TEMP_DIR_NAME))
+        """
+        Shutdown function that will be exit stage of program in order to clean everything that are already created
+        """
+        try:
+            if os.path.isdir(ImportUtil.TEMP_FULL_PATH):
+                shutil.rmtree(ImportUtil.TEMP_FULL_PATH)
+        except OSError:
+            logger.error("Deletion of the directory {0} failed.".format(ImportUtil.TEMP_DIR_NAME))
+        else:
+            logger.info("Deletion of the directory {0} successfully done.".format(ImportUtil.TEMP_DIR_NAME))
         pass
 
     @staticmethod
-    def trigger_import(input_path, protocol_name = None):
+    def trigger_import(input_path, protocol_name=None):
         try:
             import_action = ImportUtil.import_function_factory(input_path)
             dir_name, file_name = os.path.split(input_path)
 
-            # if the protocol name is provided, it means that we are importing a attack/attack suite
-            # therefore, put the imported files to corresponding attacks directory
+            # If the protocol name is provided, it means that we are importing a attack/attack suite
+            # Therefore, put the imported files to corresponding attacks directory
             if protocol_name is not None:
-                full_path_to_out_dir = ImportUtil.TEMP_FULL_PATH + "/" + protocol_name + "/attacks/" + file_name.split(".", 1)[0]
+                full_path_to_out_dir = ImportUtil.TEMP_FULL_PATH + "/" + protocol_name + "/attacks/" + \
+                                       file_name.split(".", 1)[0]
             else:
                 full_path_to_out_dir = ImportUtil.TEMP_FULL_PATH + "/" + file_name.split(".", 1)[0]
 
@@ -171,4 +171,3 @@ class ImportUtil(object):
 
 if __name__ == '__main__':
     ImportUtil.startup()
-    # ImportUtil.trigger_import("/home/berat/Desktop/METU/Ceng IV - Fall/Ceng491/peniot/src/Utils/ExtendUtil/hey.zip")

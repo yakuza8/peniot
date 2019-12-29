@@ -1,4 +1,4 @@
 """
     Extendability Utilities
-    It contains necessary functionalities used for importing and exporting scripts.
+    It contains necessary functionality used for importing and exporting scripts.
 """

@@ -1,4 +1,5 @@
 from enum import Enum
+from ..RandomUtil import random_generated_names as random_util
 
 import logging
 import os
@@ -6,7 +7,6 @@ import re
 import tarfile
 import zipfile
 
-import Utils.RandomUtil.random_generated_names as random_util
 
 logging.basicConfig(level=logging.DEBUG, format="%(asctime)s:%(levelname)s:%(name)s : %(message)s")
 logger = logging.getLogger("Util - Export")
@@ -195,8 +195,10 @@ class ExportUtil(object):
             temporary_file_name = ExportUtil._create_temporary_file_and_replace_regex(
                 template_name=ExportUtil.EXPORT_ATTACK_SUITE_TEMPLATE_NAME,
                 regex_list=[
-                    (ExportUtil.EXPORT_ATTACK_SUITE_NAME_REGEX, protocol_name + " " + attack_suite_name + " Attack Suite"),
-                    (ExportUtil.EXPORT_COMBINED_ATTACK_SUITE_NAME_REGEX, protocol_name + attack_suite_name + "AttackSuite")
+                    (ExportUtil.EXPORT_ATTACK_SUITE_NAME_REGEX, protocol_name + " "
+                     + attack_suite_name + " Attack Suite"),
+                    (ExportUtil.EXPORT_COMBINED_ATTACK_SUITE_NAME_REGEX, protocol_name
+                     + attack_suite_name + "AttackSuite")
                 ]
             )
 
