@@ -1,5 +1,17 @@
 # PENIOT: Penetration Testing Tool for IoT
 
+#### Table of Contents
+* [Project Description](#Project-Description)
+    * [What is PENIOT?](#What-is-PENIOT?)
+    * [Why is PENIOT required?](#Why-is-PENIOT-required?)
+    * [What does PENIOT provide?](#What-does-PENIOT-provide?)
+* [Build Instructions](#Build-Instructions)
+* [Documentation](#Documentation)
+* [Testing](#Testing)
+* [Contributors](#Contributors)
+* [Developer's Note](#Developer's-Note)
+* [Project Poster](#Project-Poster)
+
 ## Project Description
 
 ### What is PENIOT?
@@ -39,7 +51,6 @@ The main aim of PENIOT is to accelerate the process of security testing. It enab
 figure out security flaws on your IoT devices by automating the time consuming penetration
 testing phase.
 
-
 ### What does PENIOT provide?
 
 First of all, PENIOT provides novelty. It is one of the first examples of penetration testing
@@ -65,7 +76,7 @@ attacks to implement your own protocols or attacks. Also, you can extend already
 protocols with your newly implemented attacks. And lastly, it provides you an easy to use,
 user friendly graphical user interface. 
 
-### Build instructions
+## Build Instructions
 You can build project in your local by executing following codes.
 ```shell
 $ git clone git@github.com:yakuza8/peniot.git
@@ -76,7 +87,10 @@ Even if we provide you up-to-date installation script, there can be some missing
 it since the project cannot be maintained so long. Please inform us if there is any problem
 with installation.
 
-### Documentation
+**Important Note**: You need to have [Radamsa](https://gitlab.com/akihe/radamsa) installed
+in your machine in order for generating fuzzing payloads in fuzzing attacks.  
+
+## Documentation
 You can find *Design Overview Document* and *Final Design Document* under the **resources/documents** folder.
 Several diagrams are attached under the **resources/diagrams** folder. Here is the simplest
 representation of how PENIOT is separated modules and how it is designed.
@@ -85,11 +99,36 @@ representation of how PENIOT is separated modules and how it is designed.
 <img src="/resources/diagrams/peniot_structure_component_diagram.png">
 </p>
 
-### Testing
+## Testing
 Most of the attacks have their own sample integration tests under their attack scripts. In
 order to run those tests, you need to have a running program for that protocol. We try to
 provide you with example programs for each protocol where one can find server/client scripts
 under each protocols **examples** directory. 
+
+## Contributors
+This project is contributed by the following project members:
+- Berat Cankar
+- Bilgehan Bingöl
+- Doğukan Çavdaroğlu
+- Ebru Çelebi
+
+and is supervised by **Pelin Angın**.
+
+## Developer's Note
+Firstly, let me thank you for visiting our project site. We tried to provide you how one can
+penetrate and hack IoT devices over the protocols they use thanks to end-to-end security attacks.
+Our main purpose is to hack those devices with generic security attacks. One can simply find
+specific attacks for any protocol, but as I said ours was to provide generic and extendable
+penetration framework. 
+
+Secondly, PENIOT is developed with **Python2.7**. And our code may goes in to *legacy state*.
+But nevertheless, we want to share it to public so that anyone could get insight and
+inspiration to develop their own penetration tools, that is what makes us happy if it could happen.
+
+Thirdly, we also will try to port our tool into **Python3** if we spare necessary time for that.
+When it happens, we will inform it from this page as well. Thanks for your attention.
+
+Developer: @yakuza8 (Berat Cankar)
 
 ## Project Poster
 <p align="center">
