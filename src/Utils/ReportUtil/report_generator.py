@@ -1,6 +1,6 @@
 from fpdf import FPDF
 
-from Utils.CommonUtil import get_current_datetime_for_report_format, get_current_datetime_for_filename_format
+from ..CommonUtil import get_current_datetime_for_report_format, get_current_datetime_for_filename_format
 
 
 class PeniotPDF(FPDF):

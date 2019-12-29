@@ -1,12 +1,14 @@
 import logging
-import pyshark
 
 logging.basicConfig(level=logging.DEBUG, format="%(asctime)s:%(levelname)s:%(name)s : %(message)s")
 logger = logging.getLogger("Util - PyShark Filter")
 
 
 class PySharkFilter:
-
+    """
+    Container class for internally represented pyshark filter
+    where filter has layer_name, field_nane and value to be checked while filter
+    """
     def __init__(self, layer_name, field_name, value):
         self.layer_name = layer_name
         self.field_name = field_name

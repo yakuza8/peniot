@@ -877,8 +877,9 @@ class AttackReportingPage(Frame):
                           justify=CENTER)
 
 
-# Create the root window
-root = create_root()
-# Create HomePage and make it the current window
-HomePage(root).tkraise()
-root.mainloop()
+def run():
+    # Create the root window
+    root = create_root()
+    # Create HomePage and make it the current window
+    HomePage(root).tkraise()
+    root.mainloop()

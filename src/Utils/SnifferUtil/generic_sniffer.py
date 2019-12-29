@@ -2,7 +2,7 @@ import logging
 import os
 
 import pyshark
-import Utils.FilterUtil.pyshark_filter_util as pyshark_filter_util
+from ..FilterUtil import pyshark_filter_util as pyshark_filter_util
 
 logging.basicConfig(level=logging.DEBUG, format="%(asctime)s:%(levelname)s:%(name)s : %(message)s")
 logger = logging.getLogger("Generic Sniffer")
@@ -27,6 +27,12 @@ def filter_packets_by_filter_list(packets, filter_list):
 
 
 class GenericSniffer:
+    """
+    Generic sniffer template class
+    The class can listen specific interface by tshark over pyshark
+    and filter wanted packets by looking at display filter parameter
+    with the given timeout amount
+    """
 
     def __init__(self, timeout=DEFAULT_SNIFF_TIMEOUT, interface=DEFAULT_INTERFACE, use_json=False, include_raw=False,
                  output_pcap_filename=None, output_dir=DEFAULT_SAVE_DIR, display_filter=None):
@@ -46,6 +52,10 @@ class GenericSniffer:
         self.display_filter = display_filter
 
     def start_live_capture(self):
+        """
+        Start capture procedure of packets over listener
+        :return: None since captured packets are saved internally
+        """
         capture = pyshark.LiveCapture(interface=self.interface, use_json=self.use_json, include_raw=self.include_raw,
                                       output_file=self.output_pcap_filename, display_filter=self.display_filter)
         capture.sniff(timeout=self.timeout)
@@ -54,9 +64,17 @@ class GenericSniffer:
         capture.close()
 
     def get_captured_packets(self):
+        """
+        :return: Captured packets as list
+        """
         return self.captured_packets
 
     def filter_packets_by_protocol(self, protocol=None):
+        """
+        Filtering operation of packets via protocol name
+        :param protocol: Protocol name which will be used for filtering packets by looking their layers
+        :return: Filtered packet list
+        """
         if protocol is None:
             return self.captured_packets
         else:
