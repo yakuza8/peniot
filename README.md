@@ -54,10 +54,30 @@ by default. We chose the following protcols as the default IoT protocols include
 PENIOT. These IoT protocols are tested with various types of security attacks such as DoS,
 Fuzzing, Sniffing and Replay attacks. 
 
+Following protocols are currently supported:
+* Advanced Message Queuing Protocol ([AMQP](https://www.amqp.org/))
+* Bluetooth Low Energy ([BLE](https://www.bluetooth.com/))
+* Constraint Application Protocol ([CoAP](https://coap.technology/))
+* Message Queuing Telemetry Transport ([MQTT](http://mqtt.org/))
+
 Moreover, it enables you to export internal mainframe of its own implemented protocol and
 attacks to implement your own protocols or attacks. Also, you can extend already existing
 protocols with your newly implemented attacks. And lastly, it provides you an easy to use,
 user friendly graphical user interface. 
+
+### Build instructions
+You can build project in your local by executing following codes.
+```shell
+$ git clone git@github.com:yakuza8/peniot.git
+$ cd peniot
+$ python setup.py install
+```
+Even if we provide you up-to-date installation script, there can be some missing parts in
+it since the project cannot be maintained so long. Please inform us if there is any problem
+with installation.
+
+### Documentation
+ 
 
 ## Project Poster
 <p align="center">
