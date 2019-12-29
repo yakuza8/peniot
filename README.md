@@ -60,5 +60,6 @@ protocols with your newly implemented attacks. And lastly, it provides you an ea
 user friendly graphical user interface. 
 
 ## Project Poster
-
+<p align="center">
 ![PENIOT Poster](/resources/peniot_vectorized.svg)
+</p>
