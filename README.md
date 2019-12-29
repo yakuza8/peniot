@@ -58,3 +58,7 @@ Moreover, it enables you to export internal mainframe of its own implemented pro
 attacks to implement your own protocols or attacks. Also, you can extend already existing
 protocols with your newly implemented attacks. And lastly, it provides you an easy to use,
 user friendly graphical user interface. 
+
+## Project Poster
+
+![PENIOT Poster](/resources/peniot_vectorized.svg)
