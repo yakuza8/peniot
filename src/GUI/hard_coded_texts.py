@@ -2,12 +2,15 @@
        This file contains some methods which return hard-coded texts and constant texts
 """
 
-# window title,size and background color
+
+# Window title, size and background color
 project_title = "Peniot"
 window_size = "800x650"
 window_background_color = "white"
 mandatory_fields_background_color = "red"
-# button labels
+
+
+# Button labels
 start_testing_label = "Start Testing"
 extend_peniot_label = "Extend Peniot"
 view_captured_packets = "View Captured Packets"
@@ -23,10 +26,14 @@ perform_attack = "Perform the attack"
 load_default_parameters = "Load default parameters"
 stop_attack_go_back = "Stop the attack and go back"
 generate_report = "Generate report"
-# settings for logger
+
+
+# Settings for logger
 logging_format = "%(asctime)s:%(levelname)s:%(name)s:%(message)s"
 logger_name = "Attack Reporting Page"
-# color for the console
+
+
+# Color for the console
 console_background_color = "black"
 console_foreground_color = "white"
 
@@ -57,10 +64,12 @@ def get_help():
            "At the end, it will provide a report which states the results of the performed attack.\n"
 
 
-def get_extensionHelp():
+def get_extension_help():
     return "Here we will explain how to expand Peniot \n"
 
 
-# Returns the logger name we will use for reporting the attack results
-def get_loggerName():
+def get_logger_name():
+    """
+    Returns the logger name we will use for reporting the attack results
+    """
     return logger_name
