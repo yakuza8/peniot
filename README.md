@@ -61,5 +61,5 @@ user friendly graphical user interface.
 
 ## Project Poster
 <p align="center">
-![PENIOT Poster](/resources/peniot_vectorized.svg)
+<img src="/resources/peniot_vectorized.svg">
 </p>
