@@ -83,7 +83,7 @@ $ git clone git@github.com:yakuza8/peniot.git
 $ cd peniot
 $ python setup.py install
 ```
-Even if we provide you up-to-date installation script, there can be some missing parts in
+Even if we try to provide you up-to-date installation script, there can be some missing parts in
 it since the project cannot be maintained so long. Please inform us if there is any problem
 with installation.
 
@@ -101,9 +101,9 @@ representation of how PENIOT is separated modules and how it is designed.
 
 ## Testing
 Most of the attacks have their own sample integration tests under their attack scripts. In
-order to run those tests, you need to have a running program for that protocol. We try to
+order to run those tests, you need to have a running program for the target protocol. We try to
 provide you with example programs for each protocol where one can find server/client scripts
-under each protocols **examples** directory. 
+under each protocol's **examples** directory. 
 
 ## Contributors
 This project is contributed by the following project members:
@@ -121,11 +121,11 @@ Our main purpose is to hack those devices with generic security attacks. One can
 specific attacks for any protocol, but as I said ours was to provide generic and extendable
 penetration framework. 
 
-Secondly, PENIOT is developed with **Python2.7**. And our code may goes in to *legacy state*.
-But nevertheless, we want to share it to public so that anyone could get insight and
+Secondly, PENIOT is developed with **Python2.7**. And our code maybe had gone into *legacy state*.
+But nevertheless, we wanted to share it to public so that anyone could get insight and
 inspiration to develop their own penetration tools, that is what makes us happy if it could happen.
 
-Thirdly, we also will try to port our tool into **Python3** if we spare necessary time for that.
+Thirdly, we also will try to port our tool into **Python3** if we can spare necessary time for that.
 When it happens, we will inform it from this page as well. Thanks for your attention.
 
 Developer: @yakuza8 (Berat Cankar)
