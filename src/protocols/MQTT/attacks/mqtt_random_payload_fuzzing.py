@@ -8,10 +8,10 @@ import random
 import signal
 import time
 
-from ....Entity.attack import Attack
-from ....Entity.input_format import InputFormat
-from ....Utils.FuzzerUtil import radamsa_util as rdm
-from ....Utils.RandomUtil import random_generated_names
+from src.Entity.attack import Attack
+from src.Entity.input_format import InputFormat
+from src.Utils.FuzzerUtil import radamsa_util as rdm
+from src.Utils.RandomUtil import random_generated_names
 
 
 class MQTTRandomPayloadFuzzingAttack(Attack):

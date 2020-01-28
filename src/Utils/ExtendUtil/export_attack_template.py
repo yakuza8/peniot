@@ -12,7 +12,7 @@
 # Moreover, you do not need to export any other file than your attack
 import logging
 
-from ...Entity.attack import Attack
+from src.Entity.attack import Attack
 
 
 class _ATTACK_COMBINED_NAME(Attack):

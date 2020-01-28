@@ -1,6 +1,6 @@
 import unittest
 
-from ...Entity.protocol import Protocol
+from src.Entity.protocol import Protocol
 
 
 class AMQP(Protocol):

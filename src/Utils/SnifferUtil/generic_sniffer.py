@@ -2,7 +2,7 @@ import logging
 import os
 
 import pyshark
-from ..FilterUtil import pyshark_filter_util as pyshark_filter_util
+from src.Utils.FilterUtil import pyshark_filter_util as pyshark_filter_util
 
 logging.basicConfig(level=logging.DEBUG, format="%(asctime)s:%(levelname)s:%(name)s : %(message)s")
 logger = logging.getLogger("Generic Sniffer")

@@ -7,10 +7,10 @@ import unittest
 
 from coapthon.client.helperclient import HelperClient
 
-from ....Entity.attack import Attack
-from ....Entity.input_format import InputFormat
-from ....Utils.FuzzerUtil import radamsa_util as rdm
-from ....protocols import CoAP as PeniotCoAP
+from src.Entity.attack import Attack
+from src.Entity.input_format import InputFormat
+from src.Utils.FuzzerUtil import radamsa_util as rdm
+from src.protocols import CoAP as PeniotCoAP
 
 
 class CoAPRandomPayloadFuzzingAttack(Attack):

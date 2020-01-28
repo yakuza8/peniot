@@ -77,6 +77,15 @@ protocols with your newly implemented attacks. And lastly, it provides you an ea
 user friendly graphical user interface. 
 
 ## Build Instructions
+Firstly, you need to have Python's **setuptools** module installed in your machine. Also,
+you need to install **python-tk** and **[bluepy](https://github.com/IanHarvey/bluepy)**
+before installation and build.
+
+In short, you need the followings before running installation script.
+* setuptools
+* python-tk
+* bluepy
+
 You can build project in your local by executing following codes.
 ```shell
 $ git clone git@github.com:yakuza8/peniot.git

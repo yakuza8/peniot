@@ -1,4 +1,4 @@
-from ...Entity.protocol import Protocol
+from src.Entity.protocol import Protocol
 
 
 class BLE(Protocol):
