@@ -33,14 +33,6 @@ except ImportError:
     print "\tHint: sudo -H pip install Cython"
 
 try:
-    import kivy
-
-    print "[+] You have kivy module installed."
-except ImportError:
-    print "[-] You have to install kivy module"
-    print "\tHint: sudo -H pip install kivy"
-
-try:
     import pygame
 
     print "[+] You have pygame module installed."
