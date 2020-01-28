@@ -9,7 +9,6 @@ window_size = "800x650"
 window_background_color = "white"
 mandatory_fields_background_color = "red"
 
-
 # Button labels
 start_testing_label = "Start Testing"
 extend_peniot_label = "Extend Peniot"
@@ -27,11 +26,9 @@ load_default_parameters = "Load default parameters"
 stop_attack_go_back = "Stop the attack and go back"
 generate_report = "Generate report"
 
-
 # Settings for logger
 logging_format = "%(asctime)s:%(levelname)s:%(name)s:%(message)s"
 logger_name = "Attack Reporting Page"
-
 
 # Color for the console
 console_background_color = "black"
@@ -65,7 +62,9 @@ def get_help():
 
 
 def get_extension_help():
-    return "Here we will explain how to expand Peniot \n"
+    return "Extension utility which enables you to export internal structure of entities\n" \
+           "(Attack, AttackSuite and Protocol) or import your implemented entities into\n" \
+           "Peniot so that you can simulate/execute your own implementations."
 
 
 def get_logger_name():
