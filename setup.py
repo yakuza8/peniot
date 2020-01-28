@@ -17,6 +17,6 @@ setup(name='Peniot',
       packages=find_packages('src'),
       package_dir={'': 'src'},
       include_package_data=True,
-      install_requires=['setuptools', 'pahomqtt', 'scapy', 'pyshark', 'coapthon', 'Cython', 'pygame', 'pika', 'fpdf', 'pexpect'],
+      install_requires=['setuptools', 'pahomqtt', 'scapy', 'pyshark-legacy', 'coapthon', 'Cython', 'pygame', 'pika', 'fpdf', 'pexpect'],
       classifiers=['Programming Language :: Python :: 2.7.9']
 )

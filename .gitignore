@@ -108,3 +108,4 @@ venv.bak/
 # IntelliJ
 .idea/
 /out/
+src/logging.conf
