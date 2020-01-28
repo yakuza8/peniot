@@ -6,9 +6,9 @@ import unittest
 
 import paho.mqtt.client as paho
 
-from ....Entity.attack import Attack
-from ....Entity.input_format import InputFormat
-from ....Utils.RandomUtil import random_generated_names
+from src.Entity.attack import Attack
+from src.Entity.input_format import InputFormat
+from src.Utils.RandomUtil import random_generated_names
 
 
 class MQTTTopicNameFuzzingAttack(Attack):

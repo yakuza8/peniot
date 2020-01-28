@@ -10,7 +10,7 @@
 
 # Do not change any of the import statements, we will provide their contents to you
 # Moreover, you do not need to export any other file than your protocol
-from ...Entity.protocol import Protocol
+from src.Entity.protocol import Protocol
 
 """
 Note: You need to put your attack implementations to the attack directory that you

@@ -6,8 +6,8 @@ import unittest
 
 import pika
 
-from ....Entity.attack import Attack
-from ....Entity.input_format import InputFormat
+from src.Entity.attack import Attack
+from src.Entity.input_format import InputFormat
 
 
 class AMQPDoSAttack(Attack):

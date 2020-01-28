@@ -1,6 +1,6 @@
 from amqp_payload_size_fuzzer import *
 from amqp_random_payload_fuzzing import *
-from ....Entity.attack_suite import AttackSuite
+from src.Entity.attack_suite import AttackSuite
 
 
 class AMQPFuzzingAttackSuite(AttackSuite):

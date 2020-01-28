@@ -1,8 +1,8 @@
 import logging
 
-from ....Entity.attack import Attack
-from ....Entity.input_format import InputFormat
-from ..ble_sniff import BLESniffer
+from src.Entity.attack import Attack
+from src.Entity.input_format import InputFormat
+from src.protocols.BLE.ble_sniff import BLESniffer
 
 
 class BLESniffAttack(Attack):

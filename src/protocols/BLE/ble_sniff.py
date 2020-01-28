@@ -2,7 +2,7 @@ import os
 import sys
 import time
 
-from ...Utils import CommonUtil
+from src.Utils import CommonUtil
 from Adafruit_BLESniffer import sniffer
 from Adafruit_BLESniffer.SnifferAPI import CaptureFiles
 
