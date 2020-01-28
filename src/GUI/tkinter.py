@@ -418,7 +418,7 @@ class TabFrame(Frame):
 
         rad_var = IntVar()
         for export_index, export_option in enumerate(ExportUtil.get_export_texts_and_values()):
-            export_value = export_option.get("value").value
+            export_value = export_option.get("value")
             if export_index == 0:
                 rad_var.set(export_value)
             CustomRadiobutton(self, text=export_option.get("text"), row=row, column=2, sticky=W + S, variable=rad_var,
