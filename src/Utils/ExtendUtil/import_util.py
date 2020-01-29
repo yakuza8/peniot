@@ -25,7 +25,7 @@ class ImportOptions(Enum):
 class ImportUtil(object):
     # Path related variables
     BASE_PATH_OF_TEMP = os.path.dirname(os.path.abspath(__file__))
-    PROTOCOLS_DIR_NAME = "../../protocols"
+    PROTOCOLS_DIR_NAME = "../../protocols/tmp"
     TEMP_FULL_PATH = BASE_PATH_OF_TEMP + "/" + PROTOCOLS_DIR_NAME
     TEMP_DIR_NAME = ".tmp"
 
@@ -46,7 +46,7 @@ class ImportUtil(object):
                 shutil.rmtree(ImportUtil.TEMP_FULL_PATH)
             os.mkdir(ImportUtil.TEMP_FULL_PATH)
             # make this directory a package
-            os.open(ImportUtil.TEMP_FULL_PATH+"/__init__.py", os.O_CREAT)
+            os.open(ImportUtil.TEMP_FULL_PATH + "/__init__.py", os.O_CREAT)
         except OSError:
             logger.error("Creation of the directory {0} failed.".format(ImportUtil.TEMP_DIR_NAME))
         else:

@@ -1,6 +1,6 @@
 import logging
 
-from src.GUI import hard_coded_texts as hct
+from GUI import hard_coded_texts as hct
 
 
 class Attack(object):

@@ -10,7 +10,7 @@
 
 # Do not change any of the import statements, we will provide their contents to you
 # Moreover, you do not need to export any other file than your attack suite
-from src.Entity.attack_suite import AttackSuite
+from Entity.attack_suite import AttackSuite
 
 
 class _ATTACK_SUITE_COMBINED_NAME(AttackSuite):

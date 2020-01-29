@@ -4,10 +4,10 @@ import socket
 import time
 import unittest
 
-from src.Entity.attack import Attack
-from src.Entity.input_format import InputFormat
-from src.Utils.SnifferUtil import generic_sniffer
-from src.protocols.CoAP.coap_scanner import CoAPScanner
+from Entity.attack import Attack
+from Entity.input_format import InputFormat
+from Utils.SnifferUtil import generic_sniffer
+from protocols.CoAP.coap_scanner import CoAPScanner
 
 
 class CoAPReplayAttack(Attack):

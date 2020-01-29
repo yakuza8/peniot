@@ -2,7 +2,7 @@ from mqtt_generation_based_fuzzing import *
 from mqtt_payload_size_fuzzer import *
 from mqtt_random_payload_fuzzing import *
 from mqtt_topic_name_fuzzing import MQTTTopicNameFuzzingAttack
-from src.Entity.attack_suite import AttackSuite
+from Entity.attack_suite import AttackSuite
 
 
 class MQTTFuzzingAttackSuite(AttackSuite):

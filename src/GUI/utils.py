@@ -7,7 +7,7 @@ import shutil
 
 from Tkinter import *
 from hard_coded_texts import project_title, window_size, window_background_color
-from src.Utils.ExtendUtil.import_util import ImportUtil
+from Utils.ExtendUtil.import_util import ImportUtil
 
 # list of default protocols
 DEFAULT_PROTOCOLS = ["MQTT", "CoAP", "AMQP", "BLE"]

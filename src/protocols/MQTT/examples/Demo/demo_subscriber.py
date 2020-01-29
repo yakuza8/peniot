@@ -6,7 +6,7 @@ import signal
 import sys
 import threading
 
-from src.Utils.RandomUtil.random_generated_names import get_random_client_name
+from Utils.RandomUtil.random_generated_names import get_random_client_name
 
 DEFAULT_BROKER_HOST = "localhost"
 DEFAULT_TOPIC_NAME = "peniot/demo"

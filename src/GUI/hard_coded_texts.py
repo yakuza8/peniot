@@ -55,6 +55,7 @@ def get_help():
            "    * MQTT\n" \
            "    * CoAP\n" \
            "    * BLE\n" \
+           "    * AMQP\n" \
            "For each protocol, there is at least one attack.After selecting protocol\n" \
            "and attacks, you just need to provide some information about your\n" \
            "device or network.PENIOT will handle the rest while you are resting.\n" \

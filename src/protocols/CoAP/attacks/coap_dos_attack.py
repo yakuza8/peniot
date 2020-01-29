@@ -6,9 +6,9 @@ import unittest
 
 from coapthon.client.helperclient import HelperClient
 
-from src.Entity.attack import Attack
-from src.Entity.input_format import InputFormat
-from src.protocols import CoAP as PeniotCoAP
+from Entity.attack import Attack
+from Entity.input_format import InputFormat
+from protocols import CoAP as PeniotCoAP
 
 
 class CoAPDoSAttack(Attack):

@@ -3,11 +3,11 @@ import signal
 import time
 import unittest
 
-from src.protocols.MQTT.mqtt_scanner import MQTTScanner
-from src.Entity.attack import Attack
-from src.Entity.input_format import InputFormat
-from src.Utils import CommonUtil
-from src.Utils.SnifferUtil import generic_sniffer
+from protocols.MQTT.mqtt_scanner import MQTTScanner
+from Entity.attack import Attack
+from Entity.input_format import InputFormat
+from Utils import CommonUtil
+from Utils.SnifferUtil import generic_sniffer
 
 
 class MQTTSniffAttack(Attack):
