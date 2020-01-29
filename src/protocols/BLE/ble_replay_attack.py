@@ -1,5 +1,5 @@
 import os
-from src.protocols.BLE.ble_device import BLEDevice
+from protocols.BLE.ble_device import BLEDevice
 
 
 class BLEReplayAttackHelper:

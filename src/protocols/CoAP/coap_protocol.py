@@ -1,4 +1,4 @@
-from src.Entity.protocol import Protocol
+from Entity.protocol import Protocol
 
 import unittest
 

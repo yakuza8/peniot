@@ -1,4 +1,4 @@
-from src.Entity.attack_suite import AttackSuite
+from Entity.attack_suite import AttackSuite
 from coap_payload_size_fuzzer import *
 from coap_random_payload_fuzzing import *
 

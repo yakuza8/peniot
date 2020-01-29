@@ -6,12 +6,12 @@ from threading import Timer
 from custom_widgets import *
 from hard_coded_texts import *
 from utils import *
-from src.Entity.attack import Attack
-from src.Entity.attack_suite import AttackSuite
-from src.Utils import CommonUtil
-from src.Utils.ExtendUtil.export_util import ExportUtil, ExportOptions
-from src.Utils.ExtendUtil.import_util import ImportUtil, ImportOptions
-from src.Utils.ReportUtil.report_generator import GenerateReport
+from Entity.attack import Attack
+from Entity.attack_suite import AttackSuite
+from Utils import CommonUtil
+from Utils.ExtendUtil.export_util import ExportUtil, ExportOptions
+from Utils.ExtendUtil.import_util import ImportUtil, ImportOptions
+from Utils.ReportUtil.report_generator import GenerateReport
 
 root = None
 

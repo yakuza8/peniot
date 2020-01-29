@@ -7,9 +7,9 @@ import unittest
 
 import pika
 
-from src.Entity.attack import Attack
-from src.Entity.input_format import InputFormat
-from src.Utils.FuzzerUtil import radamsa_util as rdm
+from Entity.attack import Attack
+from Entity.input_format import InputFormat
+from Utils.FuzzerUtil import radamsa_util as rdm
 
 
 class AMQPRandomPayloadFuzzingAttack(Attack):
