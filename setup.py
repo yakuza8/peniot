@@ -14,9 +14,8 @@ setup(name='Peniot',
       author='Berat Cankar,Bilgehan Bingol,Ebru Celebi,Dogukan Cavdaroglu',
       url='https://senior.ceng.metu.edu.tr/2019/peniot/',
       platform='Unix',
-      packages=find_packages('src'),
-      package_dir={'': 'src'},
+      packages=find_packages(),
       include_package_data=True,
-      install_requires=['setuptools', 'pahomqtt', 'scapy', 'pyshark-legacy', 'coapthon', 'Cython', 'pygame', 'pika', 'fpdf', 'pexpect'],
+      install_requires=['paho-mqtt', 'scapy', 'pyshark-legacy', 'coapthon', 'Cython', 'pygame', 'pika', 'fpdf', 'pexpect', 'enum'],
       classifiers=['Programming Language :: Python :: 2.7.9']
 )
