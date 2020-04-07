@@ -411,11 +411,6 @@ class TabFrame(Frame):
         CustomButton(self, "Select File Path", lambda: get_file_path(file_path_entry), row, None, W, 4, height=1)
         row = row + 1
 
-        CustomLabel(self, text="File Name:", row=row, column=1, sticky=E)
-        file_name_entry = Entry(self, font=("Arial", 15))
-        file_name_entry.grid(row=row, column=2, sticky=W + E, columnspan=2)
-        row = row + 1
-
         rad_var = IntVar()
         for export_index, export_option in enumerate(ExportUtil.get_export_texts_and_values()):
             export_value = export_option.get("value")
@@ -430,7 +425,7 @@ class TabFrame(Frame):
                                                  attack_name=attack_name_entry.get(),
                                                  attack_suite_name=attack_suite_name_entry.get(),
                                                  file_path=file_path_entry.get(),
-                                                 file_name=file_name_entry.get(), extension=rad_var.get(),
+                                                 extension=rad_var.get(),
                                                  option=option),
                      row, None, W, 4)
 
@@ -446,16 +441,17 @@ class TabFrame(Frame):
             entry.delete(0, END)
             entry.insert(0, self.file_path)
 
-        def export_button_click(protocol_name, attack_name, attack_suite_name, file_path, file_name, extension, option):
+        def export_button_click(protocol_name, attack_name, attack_suite_name, file_path, extension, option):
             try:
                 if not os.path.exists(file_path):
                     pop_up_window(root, None, "Please enter a valid file path.")
                     return
+
                 ExportUtil.export_action(protocol_name=protocol_name,
                                          attack_name=attack_name,
                                          attack_suite_name=attack_suite_name,
                                          file_path=file_path,
-                                         file_name=file_name, extension=extension,
+                                         extension=extension,
                                          option=option)
                 pop_up_window(root, None, "Files are exported successfully.")
             except Exception as e:
