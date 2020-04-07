@@ -27,7 +27,7 @@ class ImportUtil(object):
     BASE_PATH_OF_TEMP = os.path.dirname(os.path.abspath(__file__))
     PROTOCOLS_DIR_NAME = "../../protocols/tmp"
     TEMP_FULL_PATH = BASE_PATH_OF_TEMP + "/" + PROTOCOLS_DIR_NAME
-    TEMP_DIR_NAME = ".tmp"
+    TEMP_DIR_NAME = "tmp"
 
     # Get entities
     ENTITY_PATH = BASE_PATH_OF_TEMP + "/../../Entity/"
@@ -76,15 +76,19 @@ class ImportUtil(object):
             # If the protocol name is provided, it means that we are importing a attack/attack suite
             # Therefore, put the imported files to corresponding attacks directory
             if protocol_name is not None:
-                full_path_to_out_dir = ImportUtil.TEMP_FULL_PATH + "/" + protocol_name + "/attacks/" + \
-                                       file_name.split(".", 1)[0]
+                full_path_to_out_dir = ImportUtil.TEMP_FULL_PATH + "/" + protocol_name + "/attacks"
             else:
                 full_path_to_out_dir = ImportUtil.TEMP_FULL_PATH + "/" + file_name.split(".", 1)[0]
 
             try:
-                os.mkdir(full_path_to_out_dir)
-            except OSError:
-                logger.error("Creation of the directory {0} failed.".format(full_path_to_out_dir))
+                os.makedirs(full_path_to_out_dir)
+                if protocol_name is not None and not os.path.isfile(ImportUtil.TEMP_FULL_PATH + "/" + protocol_name + "/__init__.py"):
+                    f = open(ImportUtil.TEMP_FULL_PATH + "/" + protocol_name + "/__init__.py", "w")
+                    f.close()
+            except OSError as e:
+                logger.error(
+                    "Creation of the directory {0} failed with following error: {1}".format(full_path_to_out_dir,
+                                                                                           e.message))
             else:
                 logger.info("Creation of the directory {0} successfully done.".format(full_path_to_out_dir))
 
