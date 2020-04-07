@@ -18,6 +18,7 @@ can find in root path of created archive. Do not forget this since we are parsin
 that directory to import attack dynamically.
 """
 
+
 class _PROTOCOL_NAME(Protocol):
 
     def __init__(self):

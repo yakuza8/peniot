@@ -56,7 +56,8 @@ class _ATTACK_COMBINED_NAME(Attack):
         # you can browse it from ? button nearby attacks in attack menu
         description = "_ATTACK_NAME Description"
 
-        Attack.__init__(self, attack_name, inputs, description)
+        # In the signature, there are default values for inputs and it is given as empty list, you can fill its content
+        Attack.__init__(self, attack_name, inputs, [], description)
 
         # Simple logger and registration
         logging.basicConfig(level=logging.DEBUG, format="%(asctime)s:%(levelname)s:%(name)s:%(message)s")
