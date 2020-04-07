@@ -115,11 +115,20 @@ def get_attacks(package_name):
     attacks = []
     # Base package to start searching for protocols
     packages = [package_name + ".attacks"]
+
+    # Add exported attacks or suites if exists
+    separated_package_name = package_name.split(".")
+    attack_name = separated_package_name[-1]
+    packages.append(".".join(separated_package_name[:-1] + [ImportUtil.TEMP_DIR_NAME, attack_name, "attacks"]))
+
     # Continue to search until no package is available
     while len(packages) > 0:
         # Get the package
         package = packages.pop()
-        package_module = importlib.import_module(package)
+        try:
+            package_module = importlib.import_module(package)
+        except ImportError:
+            continue
         prefix = package_module.__name__ + "."
         for finder, name, ispkg in pkgutil.iter_modules(package_module.__path__, prefix):
             # If it is a package, add it to the package list
