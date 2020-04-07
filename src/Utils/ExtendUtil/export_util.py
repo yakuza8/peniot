@@ -106,14 +106,10 @@ class ExportUtil(object):
         tar.close()
 
     @staticmethod
-    def export_protocol(protocol_name, export_path, export_type, output_name):
+    def export_protocol(protocol_name, export_path, export_type):
         temporary_file_name = None
         try:
             logger.info("Exporting protocol is started.")
-
-            # Check whether output name has any possible naming
-            if len(output_name.split(".")[0].strip()) == 0:
-                output_name = protocol_name
 
             temporary_file_name = ExportUtil._create_temporary_file_and_replace_regex(
                 template_name=ExportUtil.EXPORT_PROTOCOL_TEMPLATE_NAME,
@@ -125,7 +121,7 @@ class ExportUtil(object):
             # Decide function and export with respect to corresponding archive
             export_func = ExportUtil.export_function_factory(export_type)
             export_func(
-                output_name,
+                protocol_name,
                 [  # [0] represents actual file path and [1] represents the name of file in compressed file
                     (ExportUtil.BASE_PATH + "/../../Entity/protocol.py", "protocol.py"),
                     (temporary_file_name, protocol_name + "_protocol.py"),
@@ -144,14 +140,10 @@ class ExportUtil(object):
                 os.remove(temporary_file_name)
 
     @staticmethod
-    def export_attack(protocol_name, attack_name, export_path, export_type, output_name):
+    def export_attack(protocol_name, attack_name, export_path, export_type):
         temporary_file_name = None
         try:
             logger.info("Exporting attack is started.")
-
-            # Check whether output name has any possible naming
-            if len(output_name.split(".")[0].strip()) == 0:
-                output_name = protocol_name + "_" + attack_name
 
             temporary_file_name = ExportUtil._create_temporary_file_and_replace_regex(
                 template_name=ExportUtil.EXPORT_ATTACK_TEMPLATE_NAME,
@@ -164,7 +156,7 @@ class ExportUtil(object):
             # Decide function and export with respect to corresponding archive
             export_func = ExportUtil.export_function_factory(export_type)
             export_func(
-                output_name,
+                attack_name,
                 [  # [0] represents actual file path and [1] represents the name of file in compressed file
                     (ExportUtil.BASE_PATH + "/../../Entity/attack.py", "attack.py"),
                     (ExportUtil.BASE_PATH + "/../../Entity/input_format.py", "input_format.py"),
@@ -183,14 +175,10 @@ class ExportUtil(object):
                 os.remove(temporary_file_name)
 
     @staticmethod
-    def export_attack_suite(protocol_name, attack_suite_name, export_path, export_type, output_name):
+    def export_attack_suite(protocol_name, attack_suite_name, export_path, export_type):
         temporary_file_name = None
         try:
             logger.info("Exporting attack suite is started.")
-
-            # Check whether output name has any possible naming
-            if len(output_name.split(".")[0].strip()) == 0:
-                output_name = protocol_name + "_" + attack_suite_name + "_suite"
 
             temporary_file_name = ExportUtil._create_temporary_file_and_replace_regex(
                 template_name=ExportUtil.EXPORT_ATTACK_SUITE_TEMPLATE_NAME,
@@ -205,7 +193,7 @@ class ExportUtil(object):
             # Decide function and export with respect to corresponding archive
             export_func = ExportUtil.export_function_factory(export_type)
             export_func(
-                output_name,
+                attack_suite_name,
                 [  # [0] represents actual file path and [1] represents the name of file in compressed file
                     (ExportUtil.BASE_PATH + "/../../Entity/attack_suite.py", "attack_suite.py"),
                     (temporary_file_name, protocol_name + "_" + attack_suite_name + "_attack_suite.py"),
@@ -248,14 +236,14 @@ class ExportUtil(object):
         return content
 
     @staticmethod
-    def export_action(protocol_name, attack_name, attack_suite_name, file_path, file_name, extension, option):
+    def export_action(protocol_name, attack_name, attack_suite_name, file_path, extension, option):
         file_path = file_path if file_path.endswith("/") else file_path + "/"
         if option == ExportOptions.PROTOCOL:
-            ExportUtil.export_protocol(protocol_name, file_path, extension, file_name)
+            ExportUtil.export_protocol(protocol_name, file_path, extension)
         elif option == ExportOptions.ATTACK:
-            ExportUtil.export_attack(protocol_name, attack_name, file_path, extension, file_name)
+            ExportUtil.export_attack(protocol_name, attack_name, file_path, extension)
         elif option == ExportOptions.ATTACK_SUITE:
-            ExportUtil.export_attack_suite(protocol_name, attack_suite_name, file_path, extension, file_name)
+            ExportUtil.export_attack_suite(protocol_name, attack_suite_name, file_path, extension)
         else:
             raise ValueError("Unknown export option!")
 
