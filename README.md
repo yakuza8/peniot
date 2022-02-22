@@ -86,6 +86,10 @@ In short, you need the followings before running installation script.
 * python-tk
 * bluepy
 
+> Note that it is suggested to have a separate virtual environment particularly created
+> for Peniot since the dependent libraries are pretty old and can cause some trouble to
+> install them among your existing external libraries
+
 You can build project in your local by executing following codes.
 ```shell
 $ git clone git@github.com:yakuza8/peniot.git
@@ -98,6 +102,18 @@ with installation.
 
 **Important Note**: You need to have [Radamsa](https://gitlab.com/akihe/radamsa) installed
 in your machine in order for generating fuzzing payloads in fuzzing attacks.  
+
+## Execution
+
+You can run Peniot via command line or your favorite IDE after setting up a virtual environment and 
+installing the necessary libraries described above.
+
+```shell
+$ python src/peniot.py
+```
+
+After running this command, you should see an user interface appeared. Then you can explore the tool
+by yourself.
 
 ## Documentation
 You can find *Design Overview Document* and *Final Design Document* under the **resources/documents** folder.
